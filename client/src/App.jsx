@@ -19,9 +19,9 @@ function App() {
         <Route path="/detailedChamapaign/:id" element={<DetailedChampaign />} />
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
-          <Route path="/createBatch" element={<CreateBatch />} />
+          <Route path="/createBatch/:id" element={<CreateBatch />} />
           <Route path="/createChampaign" element={<CreateChampaign />} />
-          <Route path="/updateChampaign" element={<UpdateChampaign />} />
+          <Route path="/updateChampaign/:id" element={<UpdateChampaign />} />
         </Route>
       </Routes>
     </BrowserRouter>
