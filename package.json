@@ -4,7 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"nodemon API/index.js\" \"npm run dev --prefix client\"",
+    "dev": "concurrently \"nodemon api/index.js\" \"npm run dev --prefix client\"",
     "start": "node API/index.js",
     "build": "npm install && npm install --prefix client && npm run build --prefix client"
   },
@@ -18,7 +18,8 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.3.3"
+    "mongoose": "^8.3.3",
+    "nodemon": "^3.1.0"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
