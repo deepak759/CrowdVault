@@ -39,6 +39,9 @@ const champaignSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    coverImage:{
+      type:String,
+    },
     amountGained: {
       type: Number,
       default:0
