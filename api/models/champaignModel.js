@@ -41,6 +41,7 @@ const champaignSchema = new mongoose.Schema(
     },
     amountGained: {
       type: Number,
+      default:0
     },
     investors: {
       type: [{

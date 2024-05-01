@@ -3,16 +3,24 @@ import User from "../models/userModel.js";
 import { errorHandler } from "../utils/error.js";
 
 export const createChampaign = async (req, res, next) => {
-  const champaignData = req.body;
+    const champaignData = req.body;
+  
+    try {
+      const newChampaign = new Champaign({...champaignData,userRef:req.user.id});
+      const createdChampaign = await newChampaign.save();
 
-  try {
-    const newChampaign = new Champaign(champaignData);
-    const createdChampaign = await newChampaign.save();
-    res.status(200).json(createdChampaign);
-  } catch (error) {
-    next(error);
-  }
-};
+      const updateUser = await User.findByIdAndUpdate(
+        req.user.id,
+        { $push: { champaigns: createdChampaign._id } }, 
+        { new: true } 
+      );
+  
+      res.status(200).json(createdChampaign);
+    } catch (error) {
+      next(error);
+    }
+  };
+  
 
 export const createBatches = async (req, res, next) => {
   const champaignID = req.params.id;
@@ -54,13 +62,21 @@ export const investIn = async (req, res, next) => {
   const { invested, equity } = req.body;
   try {
     const investor = await User.findById(investorID);
+
     const champaign = await Champaign.findById(champaignID);
-    champaign.amountGained = champaign.amountGained + invested;
+
+    champaign.amountGained +=  invested;
+
     champaign.investors.push({investorID,equity,invested})
+
     const updatedChampaign=await champaign.save()
-    investor.invested.push(champaignID,invested,equity)
+
+    investor.invested.push({champaignID,invested,equity})
+
     const updatedUser=await investor.save()
+
     res.status(200).json({updatedChampaign,updatedUser})
+
   } catch (error) {
     next(error)
   }
