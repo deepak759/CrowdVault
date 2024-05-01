@@ -1,8 +1,11 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-
 import cookieParser from "cookie-parser";
+
+import champaignRouter from './routes/champaignRoutes.js'
+import userRouter from './routes/userRoutes.js'
+
 
 dotenv.config();
 
@@ -20,7 +23,8 @@ try {
 app.use(cookieParser())
 app.use(express.json());
 
-
+app.use('/api/champaign',champaignRouter)
+app.use('/api/user',userRouter)
 
 
 app.use((err, req, res, next) => {
@@ -33,6 +37,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(8800, () => {
-  console.log("server is running on port 8800");
+app.listen(8000, () => {
+  console.log("server is running on port 8000");
 });
