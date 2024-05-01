@@ -13,8 +13,15 @@ const batchSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  filesUrls: {
-    type: [String],
+  batchNumber: {
+    type: Number,
+  },
+  amountRequired: {
+    type: Number,
+    required: true,
+  },
+  filesURL: {
+    type: String,
   },
 });
 
@@ -35,11 +42,19 @@ const champaignSchema = new mongoose.Schema(
     amountGained: {
       type: Number,
     },
+    investors: {
+      type: [{
+        investorID:String,
+        equity:Number,
+        invested:Number
+      }],
+    },
     userRef: {
       type: String,
+      required: true,
     },
-    filesURLs: {
-      type: [String],
+    filesURL: {
+      type: String,
     },
     batches: {
       type: [batchSchema],

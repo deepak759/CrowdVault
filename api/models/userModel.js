@@ -18,7 +18,13 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
   },
   invested: {
-    type: [String],
+    type: [
+      {
+        invested:Number,
+        champaignID:String,
+        equity:Number
+      }
+    ],
   },
   champaigns: {
     type: [String],
