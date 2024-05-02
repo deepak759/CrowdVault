@@ -9,9 +9,11 @@ import SignUp from "./pages/SignUp";
 import DetailedChampaign from "./pages/DetailedChampaign";
 import PrivateRoute from "./components/PrivateRoute";
 import UpdateChampaign from "./pages/UpdateChampaign";
+import Header from "./components/Header";
 function App() {
   return (
     <BrowserRouter>
+    <Header/>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/signin" element={<SignIn />} />

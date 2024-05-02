@@ -81,3 +81,21 @@ export const investIn = async (req, res, next) => {
     next(error)
   }
 };
+
+
+export const searchHandler=async(req,res,next)=>{
+  const searchTerm = req.query.searchTerm || "money";
+  const sort = req.query.sort || "createdAt";
+  try {
+    const champaigns = await Champaign.find({
+      $or: [
+        { title: { $regex: searchTerm, $options: "i" } },
+        { description: { $regex: searchTerm, $options: "i" } },
+      ],
+    }).sort({ [sort]: "desc" });
+   
+    res.status(200).json(champaigns);
+  } catch (error) {
+    next(error);
+  }
+}
