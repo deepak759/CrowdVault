@@ -14,6 +14,8 @@ function App() {
   return (
     <BrowserRouter>
     <Header/>
+    <div className="main">
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/signin" element={<SignIn />} />
@@ -26,6 +28,7 @@ function App() {
           <Route path="/updateChampaign/:id" element={<UpdateChampaign />} />
         </Route>
       </Routes>
+    </div>
     </BrowserRouter>
   );
 }
