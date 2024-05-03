@@ -148,8 +148,8 @@ export default function Header() {
         </div>
       </div>
 
-      <div className="hidden lg:flex justify-between items-center p-2 bg-[#1f2937] text-white">
-        <div className="flex items-center">
+      <div className="hidden lg:flex  justify-between items-center p-2 bg-[#1f2937] text-white">
+        <div className="flex items-center ">
           <div className="flex text-2xl items-center font-bold">
             <img src={Logo} className="h-12 pb-1" alt="logo" />
             <Link to="/" className="no-underline pl-2">

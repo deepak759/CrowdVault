@@ -20,6 +20,11 @@ const batchSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  status: {
+    type: String,
+    enum: ["Not Started", "Ongoing", "Completed"],
+    default: "Not Started",
+  },
   filesURL: {
     type: String,
   },
@@ -39,19 +44,25 @@ const champaignSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    coverImage:{
-      type:String,
+    equity: {
+      type: Number,
+      required: true,
+    },
+    coverImage: {
+      type: String,
     },
     amountGained: {
       type: Number,
-      default:0
+      default: 0,
     },
     investors: {
-      type: [{
-        investorID:String,
-        equity:Number,
-        invested:Number
-      }],
+      type: [
+        {
+          investorID: String,
+          equity: Number,
+          invested: Number,
+        },
+      ],
     },
     userRef: {
       type: String,
