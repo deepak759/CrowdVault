@@ -1,7 +1,8 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ProgressBar from "../components/ProgressBar";
 import { useEffect, useState } from "react";
 import Loader from "../components/Loader";
+import { BiSolidEditAlt } from "react-icons/bi";
 import StatusIndicator from "../components/StatusIndicator";
 
 const DetailedChampaign = () => {
@@ -21,8 +22,8 @@ const DetailedChampaign = () => {
   }, [params.id]);
 
   const handleInvestmentChange = () => {
-    const eqty=((investment/data.amountRequired)*data.equity).toFixed(2);
-    setEquity(eqty)
+    const eqty = ((investment / data.amountRequired) * data.equity).toFixed(2);
+    setEquity(eqty);
   };
 
   if (!data)
@@ -35,7 +36,7 @@ const DetailedChampaign = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-5xl font-bold mb-4 text-center">{data.title}</h1>
+      <h1 className="text-5xl font-bold mb-4 capitalize pb-6 text-center">{data.title}</h1>
       <div className="flex flex-col md:flex-row md:space-x-4">
         <div className="md:w-2/3">
           <div className="mb-4">
@@ -53,19 +54,31 @@ const DetailedChampaign = () => {
                         index > 0 ? "mt-6" : ""
                       }`}
                     >
-                      <div className="flex justify-between">
-                        <h2 className="text-lg font-semibold mb-2">
+                      <div className="flex justify-between font-bold">
+                        <h2 className="text-lg capitalize font-semibold mb-2">
                           {item.title}
                         </h2>
-                        <StatusIndicator item={item.status} />
+                      <Link className="text-2xl"> <BiSolidEditAlt /></Link> 
                       </div>
                       <p className="text-gray-700 mb-2">{item.description}</p>
-                      <p className="text-gray-700 font-bold">
-                        Time Required: {item.timeRequired} days
+                      <p className="text-gray-700 font-semibold">
+                        <span className="font-bold">Time Required:</span>{" "}
+                        {item.timeRequired} Months
                       </p>
-                      <p className="text-gray-700 font-bold">
-                        Amount Required: {item.amountRequired} INR
+                      <p className="text-gray-700 font-semibold">
+                        <span className="font-bold">Amount Required:</span>{" "}
+                        {item.amountRequired} INR
                       </p>
+                      <div className="mt-2  flex justify-between">
+                       {data.filesURL? <Link
+                          to={data.filesURL}
+                          className="bg-gray-600 p-1 text-slate-100 rounded-md px-4"
+                          target="_blank"
+                        >
+                          Files
+                        </Link>:<div></div>}
+                        <StatusIndicator item={item.status} />
+                      </div>
                     </div>
                   ))
                 : "Batch information not available"}
@@ -73,9 +86,9 @@ const DetailedChampaign = () => {
           </div>
         </div>
         <div className="md:w-1/3 md:relative    ">
-          <div className=" md:fixed">
+          <div className=" md:sticky md:top-8">
             <img
-              className="w-full h-24  rounded-t-md"
+              className="w-full h-40  rounded-t-md"
               src="https://t4.ftcdn.net/jpg/04/35/43/67/360_F_435436717_rVpiZB8Uqa4kXbhIvBzbqqLwdS2veLCL.jpg"
               alt="banner image"
             />
@@ -98,6 +111,7 @@ const DetailedChampaign = () => {
                   <input
                     type="number"
                     required
+                    placeholder="eg. 4500"
                     max={data.amountRequired - data.amountGained}
                     onChange={(e) => {
                       setInvestment(e.target.value);
@@ -113,6 +127,8 @@ const DetailedChampaign = () => {
                   <input
                     type="number"
                     required
+                    min={250}
+                    placeholder=" eg. 250"
                     className="border border-gray-300 rounded-md px-3 py-2 w-full"
                   />
                 </div>
