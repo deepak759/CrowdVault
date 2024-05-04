@@ -3,7 +3,7 @@
 import './style.css';
 
 const ProgressBar = ({ value }) => {
-console.log(value)
+
   return (
     <div>
       <progress

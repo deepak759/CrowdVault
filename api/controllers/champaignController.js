@@ -2,6 +2,11 @@ import Champaign from "../models/champaignModel.js";
 import User from "../models/userModel.js";
 import { errorHandler } from "../utils/error.js";
 
+import Stripe from 'stripe';
+
+const stripe = new Stripe('sk_test_51OsnSiSCYJhYhwAnTIAsJAZw0BWBoPEHyXpIe1jWRiMPuxkcYNt9aU93X79pbdwC9pOcGmxvKkbJkRZP0xaRm3Uk00yGyka0Tr');
+
+
 export const createChampaign = async (req, res, next) => {
     const champaignData = req.body;
   
@@ -98,4 +103,31 @@ export const searchHandler=async(req,res,next)=>{
   } catch (error) {
     next(error);
   }
+}
+
+export const payment=async(req,res,next)=>{
+  const product = req.body.products;
+ 
+  const items = product.map((pro) => ({
+    price_data: {
+      currency: "usd",
+      product_data: {
+        name: pro.title,
+      images:[pro.coverImage]
+      },
+      unit_amount: 100,
+    },
+    quantity: 1,
+  }));
+  console.log(items)
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ['card'],
+    line_items: items,
+    mode: 'payment',
+    success_url: "http://localhost:5173/profile",
+    cancel_url: "http://localhost:5173/",
+  });
+console.log(session)
+  res.json( session);
+
 }

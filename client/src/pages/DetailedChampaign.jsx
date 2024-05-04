@@ -4,26 +4,58 @@ import { useEffect, useState } from "react";
 import Loader from "../components/Loader";
 import { BiSolidEditAlt } from "react-icons/bi";
 import StatusIndicator from "../components/StatusIndicator";
+import { useSelector } from "react-redux";
+import { loadStripe } from "@stripe/stripe-js";
 
 const DetailedChampaign = () => {
   const [data, setData] = useState();
   const [equity, setEquity] = useState(0);
   const [investment, setInvestment] = useState(0);
+  const [isOwner, setIsOwner] = useState(false);
+  const { currentUser } = useSelector((state) => state.user);
+
   const params = useParams();
+
   useEffect(() => {
-    const getChampaign = async () => {
-      const res = await fetch(
-        `/api/champaign/getSpecChampaign/66324e4d8f5e73c0626625f7`
-      );
+    const getChampaign = async (id) => {
+      const res = await fetch(`/api/champaign/getSpecChampaign/${id}`);
       const data = await res.json();
       setData(data);
+      if (data.userRef === currentUser._id) setIsOwner(true);
     };
-    getChampaign();
-  }, [params.id]);
-
+    getChampaign(params.id);
+  }, [params.id, currentUser._id]);
+  console.log(isOwner);
   const handleInvestmentChange = () => {
     const eqty = ((investment / data.amountRequired) * data.equity).toFixed(2);
     setEquity(eqty);
+  };
+
+  const handleInvestment = async (e) => {
+    e.preventDefault()
+    const stripe = await loadStripe(
+      "pk_test_51OsnSiSCYJhYhwAnl1OhMTQ1ZBBGy9nJZcRsHzQWLj1cfBwToiNyuk0BAELYjq2z4PH2rZtAPInwzaEhV97PuxSP00YdKxlibp"
+    );
+
+    const body = {
+      products: [data],
+    };
+    const header = {
+      "Content-Type": "Application/json",
+    };
+    const res = await fetch(`/api/champaign/payment/${params.id}`, {
+      method: "POST",
+      headers: header,
+      body: JSON.stringify(body),
+    });
+    const session = await res.json();
+    const result = stripe.redirectToCheckout({
+      sessionId: session.id,
+    });
+    console.log(result)
+    if (result.error) {
+      console.log(result.error);
+    }
   };
 
   if (!data)
@@ -36,7 +68,9 @@ const DetailedChampaign = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-5xl font-bold mb-4 capitalize pb-6 text-center">{data.title}</h1>
+      <h1 className="text-5xl font-bold mb-4 capitalize pb-6 text-center">
+        {data.title}
+      </h1>
       <div className="flex flex-col md:flex-row md:space-x-4">
         <div className="md:w-2/3">
           <div className="mb-4">
@@ -58,7 +92,12 @@ const DetailedChampaign = () => {
                         <h2 className="text-lg capitalize font-semibold mb-2">
                           {item.title}
                         </h2>
-                      <Link className="text-2xl"> <BiSolidEditAlt /></Link> 
+                        {isOwner && (
+                          <Link className="text-2xl">
+                            {" "}
+                            <BiSolidEditAlt />
+                          </Link>
+                        )}
                       </div>
                       <p className="text-gray-700 mb-2">{item.description}</p>
                       <p className="text-gray-700 font-semibold">
@@ -70,13 +109,17 @@ const DetailedChampaign = () => {
                         {item.amountRequired} INR
                       </p>
                       <div className="mt-2  flex justify-between">
-                       {data.filesURL? <Link
-                          to={data.filesURL}
-                          className="bg-gray-600 p-1 text-slate-100 rounded-md px-4"
-                          target="_blank"
-                        >
-                          Files
-                        </Link>:<div></div>}
+                        {data.filesURL ? (
+                          <Link
+                            to={data.filesURL}
+                            className="bg-gray-600 p-1 text-slate-100 rounded-md px-4"
+                            target="_blank"
+                          >
+                            Files
+                          </Link>
+                        ) : (
+                          <div></div>
+                        )}
                         <StatusIndicator item={item.status} />
                       </div>
                     </div>
@@ -103,7 +146,7 @@ const DetailedChampaign = () => {
             />
 
             <div className="mb-4 py-4">
-              <form action="submit" className="space-y-2">
+              <form onSubmit={handleInvestment} className="space-y-2">
                 <div>
                   <label htmlFor="amount" className="block pb-2">
                     Amount:
@@ -144,10 +187,11 @@ const DetailedChampaign = () => {
                   />
                 </div>
                 <button
+                 
                   type="submit"
                   className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
                 >
-                  Donate now
+                  Invest now
                 </button>
               </form>
             </div>
