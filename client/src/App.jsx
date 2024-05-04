@@ -8,10 +8,12 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import DetailedChampaign from "./pages/DetailedChampaign";
 import PrivateRoute from "./components/PrivateRoute";
-import UpdateChampaign from "./pages/UpdateChampaign";
+
 import Header from "./components/Header";
 import Success from "./pages/Success";
+import UpdateChampaign from "./pages/UpdateChampaign";
 function App() {
+  
   return (
     <BrowserRouter>
     <Header/>

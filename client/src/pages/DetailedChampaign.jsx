@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { loadStripe } from "@stripe/stripe-js";
 
 const DetailedChampaign = () => {
+  sessionStorage.removeItem("investmentProcessed")
   const [data, setData] = useState();
   const [equity, setEquity] = useState(0);
   const [investment, setInvestment] = useState(0);
@@ -31,7 +32,7 @@ const DetailedChampaign = () => {
 
   const handleInvestmentChange = () => {
 
-    const eqty = ((investment / data.amountRequired) * data.equity).toFixed(2);
+    const eqty = ((investment / data.amountRequired) * data.equity).toFixed(4);
     setEquity(eqty);
   };
 
@@ -45,9 +46,10 @@ const DetailedChampaign = () => {
       products: [{
         title:data.title,
         coverImage:data.coverImage,
-        investment:investment,
+        invested:investment,
         tip:tip,
-        equity:equity
+        equity:equity,
+        champaignID:params.id
       }],
     };
     const header = {
@@ -201,6 +203,9 @@ const DetailedChampaign = () => {
                  
                   type="submit"
                   className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+                disabled={isOwner}
+                style={{ cursor: isOwner ? 'not-allowed' : 'pointer' }}
+                title={isOwner ? 'Owner cannot invest in their own Campaign' : ''}
                 >
                   Invest now
                 </button>

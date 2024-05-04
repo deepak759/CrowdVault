@@ -70,7 +70,7 @@ export const investIn = async (req, res, next) => {
 
     const champaign = await Champaign.findById(champaignID);
 
-    champaign.amountGained +=  invested;
+    champaign.amountGained +=  parseInt(invested);
 
     champaign.investors.push({investorID,equity,invested})
 
@@ -115,10 +115,11 @@ export const payment=async(req,res,next)=>{
         name: pro.title,
       images:[pro.coverImage]
       },
-      unit_amount: (parseInt(pro.investment)+parseInt(pro.tip))*100,
+      unit_amount: (parseInt(pro.invested)+parseInt(pro.tip))*100,
     },
     quantity: 1,
   }));
+  req.session.products = product;
   console.log(items)
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],

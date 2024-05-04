@@ -2,7 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-
+import session from "express-session";
 import champaignRouter from './routes/champaignRoutes.js'
 import userRouter from './routes/userRoutes.js'
 
@@ -22,6 +22,12 @@ try {
 
 app.use(cookieParser())
 app.use(express.json());
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false
+}));
+
 
 app.use('/api/champaign',champaignRouter)
 app.use('/api/user',userRouter)
