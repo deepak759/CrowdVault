@@ -107,7 +107,7 @@ export const searchHandler=async(req,res,next)=>{
 
 export const payment=async(req,res,next)=>{
   const product = req.body.products;
- 
+ console.log(product)
   const items = product.map((pro) => ({
     price_data: {
       currency: "usd",
@@ -115,7 +115,7 @@ export const payment=async(req,res,next)=>{
         name: pro.title,
       images:[pro.coverImage]
       },
-      unit_amount: 100,
+      unit_amount: (parseInt(pro.investment)+parseInt(pro.tip))*100,
     },
     quantity: 1,
   }));
@@ -124,7 +124,7 @@ export const payment=async(req,res,next)=>{
     payment_method_types: ['card'],
     line_items: items,
     mode: 'payment',
-    success_url: "http://localhost:5173/profile",
+    success_url: "http://localhost:5173/success",
     cancel_url: "http://localhost:5173/",
   });
 console.log(session)

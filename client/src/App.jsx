@@ -10,6 +10,7 @@ import DetailedChampaign from "./pages/DetailedChampaign";
 import PrivateRoute from "./components/PrivateRoute";
 import UpdateChampaign from "./pages/UpdateChampaign";
 import Header from "./components/Header";
+import Success from "./pages/Success";
 function App() {
   return (
     <BrowserRouter>
@@ -22,6 +23,8 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/detailedChamapaign/:id" element={<DetailedChampaign />} />
         <Route element={<PrivateRoute />}>
+
+          <Route path="/success" element={<Success />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/createBatch/:id" element={<CreateBatch />} />
           <Route path="/createChampaign" element={<CreateChampaign />} />

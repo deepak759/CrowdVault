@@ -12,6 +12,7 @@ const DetailedChampaign = () => {
   const [equity, setEquity] = useState(0);
   const [investment, setInvestment] = useState(0);
   const [isOwner, setIsOwner] = useState(false);
+  const [tip,setTip]=useState(250)
   const { currentUser } = useSelector((state) => state.user);
 
   const params = useParams();
@@ -25,8 +26,11 @@ const DetailedChampaign = () => {
     };
     getChampaign(params.id);
   }, [params.id, currentUser._id]);
-  console.log(isOwner);
+
+
+
   const handleInvestmentChange = () => {
+
     const eqty = ((investment / data.amountRequired) * data.equity).toFixed(2);
     setEquity(eqty);
   };
@@ -38,7 +42,13 @@ const DetailedChampaign = () => {
     );
 
     const body = {
-      products: [data],
+      products: [{
+        title:data.title,
+        coverImage:data.coverImage,
+        investment:investment,
+        tip:tip,
+        equity:equity
+      }],
     };
     const header = {
       "Content-Type": "Application/json",
@@ -170,6 +180,7 @@ const DetailedChampaign = () => {
                   <input
                     type="number"
                     required
+                    onChange={(e)=>{setTip(e.target.value)}}
                     min={250}
                     placeholder=" eg. 250"
                     className="border border-gray-300 rounded-md px-3 py-2 w-full"
