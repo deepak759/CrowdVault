@@ -23,10 +23,10 @@ const DetailedChampaign = () => {
       const res = await fetch(`/api/champaign/getSpecChampaign/${id}`);
       const data = await res.json();
       setData(data);
-      if (data.userRef === currentUser._id) setIsOwner(true);
+      if (data.userRef === currentUser?._id) setIsOwner(true);
     };
     getChampaign(params.id);
-  }, [params.id, currentUser._id]);
+  }, [params.id, currentUser?._id]);
 
 
 
@@ -105,7 +105,7 @@ const DetailedChampaign = () => {
                           {item.title}
                         </h2>
                         {isOwner && (
-                          <Link className="text-2xl">
+                          <Link to={`/updateChampaign/${params.id}`} className="text-2xl">
                             {" "}
                             <BiSolidEditAlt />
                           </Link>
