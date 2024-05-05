@@ -41,6 +41,18 @@ export const createBatches = async (req, res, next) => {
   }
 };
 
+export const updateChampaign=async(req,res,next)=>{
+  const id=req.params.id
+  try {
+    const updatedCampaign=await Champaign.findByIdAndUpdate(id,{...req.body},{new:true})
+    if(!updatedCampaign)return next(errorHandler(404,"Some error occured at updating"))
+    res.status(200).json(updatedCampaign)
+    
+  } catch (error) {
+    next(error)
+  }
+}
+
 export const getAllChampaigns = async (req, res, next) => {
   try {
     const AllChampaigns = await Champaign.find();
