@@ -2,6 +2,7 @@ import User from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { errorHandler } from "../utils/error.js";
+import Champaign from "../models/champaignModel.js";
 export const createUser = async (req, res, next) => {
   const { userName, email, password } = req.body;
   const hashedPassword = bcrypt.hashSync(password, 10);
@@ -37,11 +38,30 @@ export const signInUser = async (req, res, next) => {
   }
 };
 
+export const getData = async (req, res, next) => {
+  const id = req.user.id;
+  try {
+    const user = await User.findById(id);
+    if (!user) return next(errorHandler(404, "User Not Found"));
+    const champaignsID = user.champaigns;
+   const invested=user.invested
+   const investedIDarray=[]
+   invested.map((item)=>
+   investedIDarray.push(item.champaignID)
+   )
 
-export const logOutUser=async(req,res,next)=>{
+    const investedChampaigns = await Champaign.find({ _id: { $in: investedIDarray } });
+    const createdChampaigns = await Champaign.find({ _id: { $in: champaignsID } });
+    res.status(200).json({investedChampaigns,createdChampaigns});
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const logOutUser = async (req, res, next) => {
   try {
     res.clearCookie("access_token").status(200).json("user has been logout");
   } catch (error) {
     next(error);
   }
-}
+};

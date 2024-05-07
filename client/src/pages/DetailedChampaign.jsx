@@ -8,12 +8,12 @@ import { useSelector } from "react-redux";
 import { loadStripe } from "@stripe/stripe-js";
 
 const DetailedChampaign = () => {
-  sessionStorage.removeItem("investmentProcessed")
+  sessionStorage.removeItem("investmentProcessed");
   const [data, setData] = useState();
   const [equity, setEquity] = useState(0);
   const [investment, setInvestment] = useState(0);
   const [isOwner, setIsOwner] = useState(false);
-  const [tip,setTip]=useState(250)
+  const [tip, setTip] = useState(250);
   const { currentUser } = useSelector((state) => state.user);
 
   const params = useParams();
@@ -28,29 +28,36 @@ const DetailedChampaign = () => {
     getChampaign(params.id);
   }, [params.id, currentUser?._id]);
 
-
-
   const handleInvestmentChange = () => {
-
     const eqty = ((investment / data.amountRequired) * data.equity).toFixed(4);
+    console.log(eqty);
     setEquity(eqty);
   };
 
+  useEffect(() => {
+    if(data){
+
+      handleInvestmentChange();
+    }
+  }, [investment]);
+
   const handleInvestment = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     const stripe = await loadStripe(
       "pk_test_51OsnSiSCYJhYhwAnl1OhMTQ1ZBBGy9nJZcRsHzQWLj1cfBwToiNyuk0BAELYjq2z4PH2rZtAPInwzaEhV97PuxSP00YdKxlibp"
     );
 
     const body = {
-      products: [{
-        title:data.title,
-        coverImage:data.coverImage,
-        invested:investment,
-        tip:tip,
-        equity:equity,
-        champaignID:params.id
-      }],
+      products: [
+        {
+          title: data.title,
+          coverImage: data.coverImage,
+          invested: investment,
+          tip: tip,
+          equity: equity,
+          champaignID: params.id,
+        },
+      ],
     };
     const header = {
       "Content-Type": "Application/json",
@@ -64,7 +71,7 @@ const DetailedChampaign = () => {
     const result = stripe.redirectToCheckout({
       sessionId: session.id,
     });
-    console.log(result)
+    console.log(result);
     if (result.error) {
       console.log(result.error);
     }
@@ -105,7 +112,10 @@ const DetailedChampaign = () => {
                           {item.title}
                         </h2>
                         {isOwner && (
-                          <Link to={`/updateChampaign/${params.id}`} className="text-2xl">
+                          <Link
+                            to={`/updateChampaign/${params.id}`}
+                            className="text-2xl"
+                          >
                             {" "}
                             <BiSolidEditAlt />
                           </Link>
@@ -169,8 +179,8 @@ const DetailedChampaign = () => {
                     placeholder="eg. 4500"
                     max={data.amountRequired - data.amountGained}
                     onChange={(e) => {
+                    
                       setInvestment(e.target.value);
-                      handleInvestmentChange();
                     }}
                     className="border border-gray-300 rounded-md px-3 py-2 w-full"
                   />
@@ -182,7 +192,9 @@ const DetailedChampaign = () => {
                   <input
                     type="number"
                     required
-                    onChange={(e)=>{setTip(e.target.value)}}
+                    onChange={(e) => {
+                      setTip(e.target.value);
+                    }}
                     min={250}
                     placeholder=" eg. 250"
                     className="border border-gray-300 rounded-md px-3 py-2 w-full"
@@ -200,12 +212,13 @@ const DetailedChampaign = () => {
                   />
                 </div>
                 <button
-                 
                   type="submit"
                   className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
-                disabled={isOwner}
-                style={{ cursor: isOwner ? 'not-allowed' : 'pointer' }}
-                title={isOwner ? 'Owner cannot invest in their own Campaign' : ''}
+                  disabled={isOwner}
+                  style={{ cursor: isOwner ? "not-allowed" : "pointer" }}
+                  title={
+                    isOwner ? "Owner cannot invest in their own Campaign" : ""
+                  }
                 >
                   Invest now
                 </button>
