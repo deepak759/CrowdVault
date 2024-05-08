@@ -13,6 +13,7 @@ const DetailedChampaign = () => {
   const [equity, setEquity] = useState(0);
   const [investment, setInvestment] = useState(0);
   const [isOwner, setIsOwner] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
   const [tip, setTip] = useState(250);
   const { currentUser } = useSelector((state) => state.user);
 
@@ -24,6 +25,7 @@ const DetailedChampaign = () => {
       const data = await res.json();
       setData(data);
       if (data.userRef === currentUser?._id) setIsOwner(true);
+      else setIsOwner(false)
     };
     getChampaign(params.id);
   }, [params.id, currentUser?._id]);
@@ -40,7 +42,8 @@ const DetailedChampaign = () => {
       handleInvestmentChange();
     }
   }, [investment]);
-
+if(currentUser!==null)setIsLogin(true)
+console.log(isLogin)
   const handleInvestment = async (e) => {
     e.preventDefault();
     const stripe = await loadStripe(
@@ -214,10 +217,10 @@ const DetailedChampaign = () => {
                 <button
                   type="submit"
                   className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
-                  disabled={isOwner}
-                  style={{ cursor: isOwner ? "not-allowed" : "pointer" }}
+                  disabled={isOwner || !isLogin}
+                  style={{ cursor: (isOwner || !isLogin) ? "not-allowed" : "pointer" }}
                   title={
-                    isOwner ? "Owner cannot invest in their own Campaign" : ""
+                    isOwner ? "Owner cannot invest in their own Campaign" : !isLogin?"You Need to login before investing":""
                   }
                 >
                   Invest now

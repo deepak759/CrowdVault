@@ -132,7 +132,7 @@ export const payment=async(req,res,next)=>{
     quantity: 1,
   }));
   req.session.products = product;
-  console.log(items)
+  
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
     line_items: items,
