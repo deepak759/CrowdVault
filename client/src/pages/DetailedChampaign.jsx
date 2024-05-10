@@ -6,10 +6,9 @@ import { BiSolidEditAlt } from "react-icons/bi";
 import StatusIndicator from "../components/StatusIndicator";
 import { useSelector } from "react-redux";
 import { loadStripe } from "@stripe/stripe-js";
-
 const DetailedChampaign = () => {
   sessionStorage.removeItem("investmentProcessed");
-  const [data, setData] = useState();
+  const [data, setData] = useState(null);
   const [equity, setEquity] = useState(0);
   const [investment, setInvestment] = useState(0);
   const [isOwner, setIsOwner] = useState(false);
@@ -25,10 +24,14 @@ const DetailedChampaign = () => {
       const data = await res.json();
       setData(data);
       if (data.userRef === currentUser?._id) setIsOwner(true);
-      else setIsOwner(false)
+      else setIsOwner(false);
     };
     getChampaign(params.id);
   }, [params.id, currentUser?._id]);
+
+  useEffect(() => {
+    if (currentUser !== null) setIsLogin(true);
+  }, [currentUser]);
 
   const handleInvestmentChange = () => {
     const eqty = ((investment / data.amountRequired) * data.equity).toFixed(4);
@@ -37,13 +40,11 @@ const DetailedChampaign = () => {
   };
 
   useEffect(() => {
-    if(data){
-
+    if (data) {
       handleInvestmentChange();
     }
-  }, [investment]);
-if(currentUser!==null)setIsLogin(true)
-console.log(isLogin)
+  }, [data, investment]);
+
   const handleInvestment = async (e) => {
     e.preventDefault();
     const stripe = await loadStripe(

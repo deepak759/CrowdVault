@@ -176,13 +176,14 @@
   
  
   .login-text {
-   padding-top: 10px;
+   padding-top: 20px;
     font-size: 16px;
   }
   .login-link {
     color: #4b76eb; /* Set the color you want for the Login link */
     text-decoration: none;
     font-weight: bold;
+
   }
   
   .login-link:hover {

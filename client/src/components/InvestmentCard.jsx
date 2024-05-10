@@ -2,7 +2,7 @@
 
 const InvestmentCard = ({ item, category }) => {
   return (
-    <div className="bg-white rounded-lg shadow-md p-4">
+    <div className="bg-white rounded-lg w-1/2 shadow-md p-4">
       <img
         src={item.coverImage}
         alt={item.title}

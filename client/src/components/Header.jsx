@@ -69,7 +69,7 @@ export default function Header() {
               required
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
-              placeholder="Search Champaigns..."
+              placeholder="Search Campaigns..."
               className="p-1  px-4 rounded-full mx-auto  bg-[#374151] w-[80%]"
             />
           </div>
@@ -87,7 +87,7 @@ export default function Header() {
                 <ul className="flex flex-col text-2xl text-gray-300 space-y-8 list-none items-left m-8 p-0">
                   <li className="mb-2">
                     <Link to="/createChampaign" className="no-underline hover:underline ">
-                      Create Champaign
+                      Create Campaign
                     </Link>
                   </li>
                   {/* <li className="mb-2">
@@ -176,7 +176,7 @@ export default function Header() {
             <ul className="flex list-none items-center m-0 p-0">
               <li className="mr-4">
                 <Link to="/createChampaign" className="no-underline bg-gray-600 px-4 py-2 rounded-md hover:bg-gray-700 transition-all duration-100 font-semibold ">
-                  Create Champaign
+                  Create Campaign
                 </Link>
               </li>
               {/* <li className="mr-4">
