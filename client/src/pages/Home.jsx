@@ -10,7 +10,7 @@ const Home = () => {
   }
   return (
     <div>
-      <button onClick={handleClick}>Detailed Chamapion</button>
+      <button onClick={handleClick}>Detailed Campaign</button>
     </div>
   )
 }
