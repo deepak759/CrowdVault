@@ -35,7 +35,7 @@ const DetailedChampaign = () => {
 
   const handleInvestmentChange = () => {
     const eqty = ((investment / data.amountRequired) * data.equity).toFixed(4);
-    console.log(eqty);
+
     setEquity(eqty);
   };
 
@@ -75,7 +75,7 @@ const DetailedChampaign = () => {
     const result = stripe.redirectToCheckout({
       sessionId: session.id,
     });
-    console.log(result);
+
     if (result.error) {
       console.log(result.error);
     }
@@ -90,20 +90,29 @@ const DetailedChampaign = () => {
     );
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto md:p-4">
       <h1 className="text-5xl font-bold mb-4 capitalize pb-6 text-center">
         {data.title}
       </h1>
-      <div className="flex flex-col md:flex-row md:space-x-4">
+      <div className="flex px-4 flex-col md:flex-row md:space-x-4">
         <div className="md:w-2/3">
           <div className="mb-4">
             <img src={data.coverImage} alt="" className="w-full h-auto" />
           </div>
-          <p className="text-gray-700">{data.description}</p>
+          <p className="text-gray-700 ">{data.description}</p>
+          <div className="my-4">
+            <Link
+              to={data.filesURL}
+              className="bg-gray-600 p-1 my-3 mb-52 text-slate-100 rounded-md px-4"
+              target="_blank"
+            >
+              Files
+            </Link>
+          </div>
           <div className="batches-section bg-gray-100 p-6 rounded-lg">
             <h1 className="text-2xl font-bold mb-4">Batches</h1>
             <div className="grid gap-6">
-              {data?.batches
+              {data?.batches.length > 0
                 ? data.batches.map((item, index) => (
                     <div
                       key={item._id}
@@ -135,9 +144,9 @@ const DetailedChampaign = () => {
                         {item.amountRequired} INR
                       </p>
                       <div className="mt-2  flex justify-between">
-                        {data.filesURL ? (
+                        {item.filesURL !== "" ? (
                           <Link
-                            to={data.filesURL}
+                            to={item.filesURL}
                             className="bg-gray-600 p-1 text-slate-100 rounded-md px-4"
                             target="_blank"
                           >
@@ -151,6 +160,18 @@ const DetailedChampaign = () => {
                     </div>
                   ))
                 : "Batch information not available"}
+            </div>
+            <div className=" items-center mt-8">
+              <Link
+                to={`/createBatch/${params.id}`}
+                className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 mr-4"
+              >
+                Add Batches
+              </Link>
+              <p className="text-green-800 py-4 text-sm">
+               Note: Adding batches helps investors to understand your project in a
+                better way.
+              </p>
             </div>
           </div>
         </div>
@@ -183,7 +204,6 @@ const DetailedChampaign = () => {
                     placeholder="eg. 4500"
                     max={data.amountRequired - data.amountGained}
                     onChange={(e) => {
-                    
                       setInvestment(e.target.value);
                     }}
                     className="border border-gray-300 rounded-md px-3 py-2 w-full"
@@ -219,9 +239,15 @@ const DetailedChampaign = () => {
                   type="submit"
                   className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
                   disabled={isOwner || !isLogin}
-                  style={{ cursor: (isOwner || !isLogin) ? "not-allowed" : "pointer" }}
+                  style={{
+                    cursor: isOwner || !isLogin ? "not-allowed" : "pointer",
+                  }}
                   title={
-                    isOwner ? "Owner cannot invest in their own Campaign" : !isLogin?"You Need to login before investing":""
+                    isOwner
+                      ? "Owner cannot invest in their own Campaign"
+                      : !isLogin
+                      ? "You Need to login before investing"
+                      : ""
                   }
                 >
                   Invest now
