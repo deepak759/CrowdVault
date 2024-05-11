@@ -5,7 +5,7 @@ import './style.css';
 const ProgressBar = ({ value }) => {
 
   return (
-    <div>
+    <div className='py-4 px-1'>
       <progress
         value={value}
         max="100"

@@ -17,7 +17,7 @@ function App() {
   return (
     <BrowserRouter>
     <Header/>
-    <div className="main">
+    <div className="main mb-20">
 
       <Routes>
         <Route path="/" element={<Home />} />

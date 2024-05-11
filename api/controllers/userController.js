@@ -52,7 +52,7 @@ export const getData = async (req, res, next) => {
 
     const investedChampaigns = await Champaign.find({ _id: { $in: investedIDarray } });
     const createdChampaigns = await Champaign.find({ _id: { $in: champaignsID } });
-    res.status(200).json({investedChampaigns,createdChampaigns});
+    res.status(200).json({user,investedChampaigns,createdChampaigns});
   } catch (error) {
     next(error);
   }

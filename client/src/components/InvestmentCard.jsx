@@ -1,15 +1,18 @@
 /* eslint-disable react/prop-types */
 
+import { Link } from "react-router-dom";
+
 const InvestmentCard = ({ item, category }) => {
   return (
-    <div className="bg-white rounded-lg w-1/2 shadow-md p-4">
+    <Link to={`/detailedChamapaign/${item._id}`}>
+    <div className="bg-white rounded-lg max-w-[32rem] shadow-md p-4">
       <img
         src={item.coverImage}
         alt={item.title}
         className="w-full rounded-md mb-2"
       />
       <h1 className="text-xl font-bold mb-2">{item.title}</h1>
-      <p className="text-gray-700 mb-2">{item.description}</p>
+      <p className="text-gray-700 mb-2">{item.description.substring(0,200)}...</p>
       <div className="flex justify-between mb-2">
         <h2 className="font-semibold">
           {category === "invested" ? (
@@ -41,6 +44,7 @@ const InvestmentCard = ({ item, category }) => {
         </h2>
       </div>
     </div>
+    </Link>
   );
 };
 

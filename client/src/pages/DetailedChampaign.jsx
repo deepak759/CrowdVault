@@ -90,20 +90,24 @@ const DetailedChampaign = () => {
     );
 
   return (
-    <div className="container mx-auto md:p-4">
+    <div className="container max-w-[1280px] p-[2rem] detailCamapaign mx-auto md:p-4 mb-10">
       <h1 className="text-5xl font-bold mb-4 capitalize pb-6 text-center">
         {data.title}
       </h1>
       <div className="flex px-4 flex-col md:flex-row md:space-x-4">
-        <div className="md:w-2/3">
+        <div className="md:w-2/3 shadow-lg">
           <div className="mb-4">
-            <img src={data.coverImage} alt="" className="w-full h-auto" />
+            <img
+              src={data.coverImage}
+              alt=""
+              className="w-full h-auto rounded-lg"
+            />
           </div>
-          <p className="text-gray-700 ">{data.description}</p>
+          <p className="text-gray-700">{data.description}</p>
           <div className="my-4">
             <Link
               to={data.filesURL}
-              className="bg-gray-600 p-1 my-3 mb-52 text-slate-100 rounded-md px-4"
+              className="bg-gray-600 p-1 my-3 text-slate-100 rounded-md px-4 inline-block"
               target="_blank"
             >
               Files
@@ -143,7 +147,7 @@ const DetailedChampaign = () => {
                         <span className="font-bold">Amount Required:</span>{" "}
                         {item.amountRequired} INR
                       </p>
-                      <div className="mt-2  flex justify-between">
+                      <div className="mt-2 flex justify-between">
                         {item.filesURL !== "" ? (
                           <Link
                             to={item.filesURL}
@@ -161,7 +165,7 @@ const DetailedChampaign = () => {
                   ))
                 : "Batch information not available"}
             </div>
-            <div className=" items-center mt-8">
+            <div className="flex items-center mt-8">
               <Link
                 to={`/createBatch/${params.id}`}
                 className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 mr-4"
@@ -169,12 +173,13 @@ const DetailedChampaign = () => {
                 Add Batches
               </Link>
               <p className="text-green-800 py-4 text-sm">
-               Note: Adding batches helps investors to understand your project in a
-                better way.
+                Note: Adding batches helps investors to understand your project
+                in a better way.
               </p>
             </div>
           </div>
         </div>
+
         <div className="md:w-1/3 md:relative    ">
           <div className=" md:sticky md:top-8">
             <img
