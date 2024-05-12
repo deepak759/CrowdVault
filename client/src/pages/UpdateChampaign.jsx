@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../components/Loader";
 
 const UpdateChampaign = () => {
@@ -33,7 +33,7 @@ const UpdateChampaign = () => {
     updatedBatches[index][name] = value;
     setChampaignData({ ...champaignData, batches: updatedBatches });
   };
-
+const navigate=useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -45,6 +45,7 @@ const UpdateChampaign = () => {
      const data=await res.json()
      console.log(data)
       alert("Champaign data updated successfully!");
+      navigate(`/detailedChamapaign/${params.id}`)
     } catch (error) {
       console.error("Error updating champaign data:", error);
     }
@@ -58,9 +59,16 @@ const UpdateChampaign = () => {
   return (
     <div className="container   py-8">
       <h1 className="text-2xl font-bold text-center mb-4">Edit Champaign</h1>
-      <form className=" md:w-[80%] mx-auto bg-white p-8 shadow-md rounded-md" onSubmit={handleSubmit}>
+      <form className=" md:w-[70%] mx-auto bg-white p-8 shadow-md rounded-md" onSubmit={handleSubmit}>
         <div className="mb-6">
-        <img src={champaignData.coverImage} className="h-64 w-full" alt="" />
+        <div className="flex justify-center">
+    <img 
+        src={champaignData.coverImage} 
+        className="h-64 shadow-lg" // Adding shadow class here
+        alt="" 
+    />
+</div>
+
           <label className="block  mb-6 font-semibold">
             Cover Image:
             <input

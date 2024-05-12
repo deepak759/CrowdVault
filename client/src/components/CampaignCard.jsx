@@ -29,10 +29,10 @@ const CampaignCard = () => {
     );
 
   return (
-    <div className="container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 justify-items-center">
+    <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 justify-items-center">
       {data.map((item) => (
         <Link to={`/detailedChamapaign/${item._id}`} key={item._id}>
-          <div className=" bg-white border border-gray-200 rounded-lg shadow-md flex flex-col">
+          <div className="  border border-gray-300 rounded-lg shadow-lg bg-gray-200 flex flex-col">
             <img
               className="rounded-t-lg object-cover h-64"
               src={item.coverImage}
@@ -43,8 +43,8 @@ const CampaignCard = () => {
                 {item.title}
               </h5>
               <p className="text-gray-600 text-sm mt-1">
-              {item.description.substring(0, 100) }
-                 {/* {truncateDescription(item.description)} */}
+              {item.description.substring(0, 124) }...
+                
               </p>
               <ProgressBar
                 value={Math.round(

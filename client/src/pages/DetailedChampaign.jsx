@@ -103,8 +103,8 @@ const DetailedChampaign = () => {
               className="w-full h-auto rounded-lg"
             />
           </div>
-          <p className="text-gray-700">{data.description}</p>
-          <div className="my-4">
+          <p className="text-gray-700 px-4">{data.description}</p>
+          <div className="my-4 px-4 flex justify-between">
             <Link
               to={data.filesURL}
               className="bg-gray-600 p-1 my-3 text-slate-100 rounded-md px-4 inline-block"
@@ -112,6 +112,12 @@ const DetailedChampaign = () => {
             >
               Files
             </Link>
+            {isOwner && (
+              <Link to={`/updateChampaign/${params.id}`} className="text-2xl">
+                {" "}
+                <BiSolidEditAlt />
+              </Link>
+            )}
           </div>
           <div className="batches-section bg-gray-100 p-6 rounded-lg">
             <h1 className="text-2xl font-bold mb-4">Batches</h1>
@@ -126,17 +132,8 @@ const DetailedChampaign = () => {
                     >
                       <div className="flex justify-between font-bold">
                         <h2 className="text-lg capitalize font-semibold mb-2">
-                          {item.title}
+                          Batch {item.batchNumber} : {item.title}
                         </h2>
-                        {isOwner && (
-                          <Link
-                            to={`/updateChampaign/${params.id}`}
-                            className="text-2xl"
-                          >
-                            {" "}
-                            <BiSolidEditAlt />
-                          </Link>
-                        )}
                       </div>
                       <p className="text-gray-700 mb-2">{item.description}</p>
                       <p className="text-gray-700 font-semibold">
@@ -145,7 +142,7 @@ const DetailedChampaign = () => {
                       </p>
                       <p className="text-gray-700 font-semibold">
                         <span className="font-bold">Amount Required:</span>{" "}
-                        {item.amountRequired} INR
+                        {item.amountRequired} USD
                       </p>
                       <div className="mt-2 flex justify-between">
                         {item.filesURL !== "" ? (
@@ -188,7 +185,7 @@ const DetailedChampaign = () => {
               alt="banner image"
             />
             <h1 className="text-2xl py-2 mb-4">
-              <b>{data.amountGained}</b> INR raised of {data.amountRequired}{" "}
+              <b>{data.amountGained}</b> USD raised of {data.amountRequired}{" "}
               goal
             </h1>
             <ProgressBar

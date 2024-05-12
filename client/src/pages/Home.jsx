@@ -5,13 +5,14 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import HomeBg from "../assets/homebg.jpg";
 import HometopBg from "../assets/hometopimg.png";
+import Hometop2Bg from "../assets/top2.png";
 import CampaignCard from "../components/CampaignCard";
 const Home = () => {
   sessionStorage.removeItem("investmentProcessed");
   const settings = {
     
     infinite: true,
-    speed: 500,
+    speed: 700,
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
@@ -46,8 +47,8 @@ const Home = () => {
                       safe and you can withdraw whenever you want.
                     </p>
                   </div>
-                  <div className="">
-                    <img src={HometopBg} className="" alt="" />
+                  <div className="flex justify-end">
+                    <img src={HometopBg} className="opacity-90" alt="" />
                   </div>
                 </div>
                 <div className="px-3 mt-3 md:pl-24 text-xl">
@@ -86,8 +87,8 @@ const Home = () => {
                       safe and you can withdraw whenever you want.
                     </p>
                   </div>
-                  <div className="">
-                    <img src={HometopBg} className="" alt="" />
+                  <div className="flex justify-end">
+                    <img src={Hometop2Bg} className=" opacity-90" alt="" />
                   </div>
                 </div>
                 <div className="px-3 mt-3 md:pl-24 text-xl">
