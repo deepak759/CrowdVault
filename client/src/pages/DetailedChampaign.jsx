@@ -1,4 +1,4 @@
-import { Link,  useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ProgressBar from "../components/ProgressBar";
 import { useEffect, useState } from "react";
 import Loader from "../components/Loader";
@@ -198,7 +198,7 @@ const DetailedChampaign = () => {
             />
 
             <div className="mb-4 py-4">
-              <form onSubmit={handleInvestment} className="space-y-2">
+             {!showCrypto && <form onSubmit={handleInvestment} className="space-y-2">
                 <div>
                   <label htmlFor="amount" className="block font-semibold pb-2">
                     Amount:
@@ -243,7 +243,7 @@ const DetailedChampaign = () => {
                 <div className="font-bold text-md">
                   <button
                     type="submit"
-                    className="bg-blue-500 w-full mt-2 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+                    className="bg-blue-500  mt-2 text-white py-2 px-4 rounded-md hover:bg-blue-600"
                     disabled={isOwner || !isLogin}
                     style={{
                       cursor: isOwner || !isLogin ? "not-allowed" : "pointer",
@@ -260,10 +260,12 @@ const DetailedChampaign = () => {
                   </button>
                 </div>
               </form>
-              <div className="">{showCrypto && <MetaMask data={data} />}</div>
+              }
+                <div className="">{showCrypto && <MetaMask data={data} />}</div>
+              
               <button
-                onClick={() => setShowCrypto(true)}
-                className="bg-green-500 font-semibold w-full mt-2 text-white py-2 px-4 rounded-md hover:bg-blue-600 "
+                onClick={() => setShowCrypto(!showCrypto)}
+                className="bg-green-500 font-semibold w-full mt-6 text-white py-2 px-4 rounded-md hover:bg-green-600 "
                 disabled={isOwner || !isLogin}
                 style={{
                   cursor: isOwner || !isLogin ? "not-allowed" : "pointer",
@@ -276,7 +278,7 @@ const DetailedChampaign = () => {
                     : ""
                 }
               >
-                Invest Using Crypto
+                Invest Using {showCrypto?"Doller":"Crypto"}
               </button>
             </div>
           </div>
