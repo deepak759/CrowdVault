@@ -12,6 +12,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import Header from "./components/Header";
 import Success from "./pages/Success";
 import UpdateChampaign from "./pages/UpdateChampaign";
+import CryptoCalculator from "./components/CryptoCalculator";
 function App() {
   
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/calc" element={<CryptoCalculator />} />
         <Route path="/detailedChamapaign/:id" element={<DetailedChampaign />} />
         <Route element={<PrivateRoute />}>
 

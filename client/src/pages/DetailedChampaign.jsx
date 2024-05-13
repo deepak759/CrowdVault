@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link,  useParams } from "react-router-dom";
 import ProgressBar from "../components/ProgressBar";
 import { useEffect, useState } from "react";
 import Loader from "../components/Loader";
@@ -6,6 +6,7 @@ import { BiSolidEditAlt } from "react-icons/bi";
 import StatusIndicator from "../components/StatusIndicator";
 import { useSelector } from "react-redux";
 import { loadStripe } from "@stripe/stripe-js";
+import MetaMask from "../components/MetaMask";
 const DetailedChampaign = () => {
   sessionStorage.removeItem("investmentProcessed");
   const [data, setData] = useState(null);
@@ -15,6 +16,7 @@ const DetailedChampaign = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [tip, setTip] = useState(250);
   const { currentUser } = useSelector((state) => state.user);
+  const [showCrypto, setShowCrypto] = useState(false);
 
   const params = useParams();
 
@@ -94,6 +96,7 @@ const DetailedChampaign = () => {
       <h1 className="text-5xl font-bold mb-4 capitalize pb-6 text-center">
         {data.title}
       </h1>
+
       <div className="flex px-4 flex-col md:flex-row md:space-x-4">
         <div className="md:w-2/3 shadow-lg">
           <div className="mb-4">
@@ -197,7 +200,7 @@ const DetailedChampaign = () => {
             <div className="mb-4 py-4">
               <form onSubmit={handleInvestment} className="space-y-2">
                 <div>
-                  <label htmlFor="amount" className="block pb-2">
+                  <label htmlFor="amount" className="block font-semibold pb-2">
                     Amount:
                   </label>
                   <input
@@ -212,7 +215,7 @@ const DetailedChampaign = () => {
                   />
                 </div>
                 <div>
-                  <label htmlFor="amount" className="block pb-2">
+                  <label htmlFor="amount" className="block font-semibold pb-2">
                     Tip:
                   </label>
                   <input
@@ -227,7 +230,7 @@ const DetailedChampaign = () => {
                   />
                 </div>
                 <div>
-                  <label htmlFor="amount" className="block pb-2">
+                  <label htmlFor="amount" className="block font-semibold pb-2">
                     Equity:
                   </label>
                   <input
@@ -237,24 +240,44 @@ const DetailedChampaign = () => {
                     className="border border-gray-300 rounded-md px-3 py-2 w-full bg-gray-100 cursor-not-allowed"
                   />
                 </div>
-                <button
-                  type="submit"
-                  className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
-                  disabled={isOwner || !isLogin}
-                  style={{
-                    cursor: isOwner || !isLogin ? "not-allowed" : "pointer",
-                  }}
-                  title={
-                    isOwner
-                      ? "Owner cannot invest in their own Campaign"
-                      : !isLogin
-                      ? "You Need to login before investing"
-                      : ""
-                  }
-                >
-                  Invest now
-                </button>
+                <div className="font-bold text-md">
+                  <button
+                    type="submit"
+                    className="bg-blue-500 w-full mt-2 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+                    disabled={isOwner || !isLogin}
+                    style={{
+                      cursor: isOwner || !isLogin ? "not-allowed" : "pointer",
+                    }}
+                    title={
+                      isOwner
+                        ? "Owner cannot invest in their own Campaign"
+                        : !isLogin
+                        ? "You Need to login before investing"
+                        : ""
+                    }
+                  >
+                    Invest Now
+                  </button>
+                </div>
               </form>
+              <div className="">{showCrypto && <MetaMask data={data} />}</div>
+              <button
+                onClick={() => setShowCrypto(true)}
+                className="bg-green-500 font-semibold w-full mt-2 text-white py-2 px-4 rounded-md hover:bg-blue-600 "
+                disabled={isOwner || !isLogin}
+                style={{
+                  cursor: isOwner || !isLogin ? "not-allowed" : "pointer",
+                }}
+                title={
+                  isOwner
+                    ? "Owner cannot invest in their own Campaign"
+                    : !isLogin
+                    ? "You Need to login before investing"
+                    : ""
+                }
+              >
+                Invest Using Crypto
+              </button>
             </div>
           </div>
         </div>
