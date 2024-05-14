@@ -55,7 +55,7 @@ export const updateChampaign=async(req,res,next)=>{
 
 export const getAllChampaigns = async (req, res, next) => {
   try {
-    const AllChampaigns = await Champaign.find();
+    const AllChampaigns = await Champaign.find().sort({ createdAt: -1 });
     res.status(200).json(AllChampaigns);
   } catch (error) {
     next(error);
@@ -119,7 +119,7 @@ export const searchHandler=async(req,res,next)=>{
 
 export const payment=async(req,res,next)=>{
   const product = req.body.products;
- console.log(product)
+
   const items = product.map((pro) => ({
     price_data: {
       currency: "usd",
@@ -140,7 +140,7 @@ export const payment=async(req,res,next)=>{
     success_url: "http://localhost:5173/success",
     cancel_url: "http://localhost:5173/",
   });
-console.log(session)
+
   res.json( session);
 
 }

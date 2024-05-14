@@ -70,7 +70,7 @@ const Profile = () => {
             Campaigns
           </button>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-4 mt-4 justify-items-center mx-28">
+        <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-10 mt-4 justify-items-center ">
           {showCategory === "Investments" ? (
             data.investedChampaigns.length > 0 ? (
               data.investedChampaigns.map((item) => (

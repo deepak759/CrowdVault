@@ -24,7 +24,7 @@ const CampaignCard = ({item}) => {
                 {item.title}
               </h5>
               <p className="text-gray-600 text-sm mt-1">
-              {item.description.substring(0, 100) }...
+              {item.description.substring(0, 120) }...
                 
               </p>
               <ProgressBar

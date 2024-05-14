@@ -20,6 +20,7 @@ router.post("/updateChampaign/:id", verifyUser, updateChampaign);
 router.post("/invested/:id", verifyUser, investIn);
 router.post("/payment/:id", verifyUser, payment);
 router.get("/search/", searchHandler);
+
 router.get("/session", (req, res) => {
   // Retrieve product data from session
   const products = req.session.products;
