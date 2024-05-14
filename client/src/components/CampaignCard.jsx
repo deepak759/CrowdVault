@@ -1,38 +1,19 @@
-import { useEffect, useState } from "react";
-import Loader from "./Loader";
+/* eslint-disable react/prop-types */
+
 import { Link } from "react-router-dom";
 import ProgressBar from "./ProgressBar";
 
-const CampaignCard = () => {
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const res = await fetch("/api/champaign/getAllChampaigns");
-        const data = await res.json();
-        setData(data);
-      } catch (error) {
-        console.log();
-      }
-    };
-    getData();
-  }, []);
+const CampaignCard = ({item}) => {
 
 
 
-  if (!data)
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <Loader />
-      </div>
-    );
+  
 
   return (
-    <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 justify-items-center">
-      {data.map((item) => (
+    <div className="">
+     
         <Link to={`/detailedChamapaign/${item._id}`} key={item._id}>
-          <div className="  border border-gray-300 rounded-lg shadow-lg bg-gray-200 flex flex-col">
+          <div className="  border border-gray-300 rounded-lg shadow-lg bg-gray-100 flex flex-col">
             <img
               className="rounded-t-lg object-cover h-64"
               src={item.coverImage}
@@ -43,7 +24,7 @@ const CampaignCard = () => {
                 {item.title}
               </h5>
               <p className="text-gray-600 text-sm mt-1">
-              {item.description.substring(0, 124) }...
+              {item.description.substring(0, 100) }...
                 
               </p>
               <ProgressBar
@@ -64,7 +45,7 @@ const CampaignCard = () => {
             </div>
           </div>
         </Link>
-      ))}
+     
     </div>
   );
 };

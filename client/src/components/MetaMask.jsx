@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
-import { formatBalance, formatChainAsNum } from "../utils/";
+import { formatBalance } from "../utils/";
 import detectEthereumProvider from "@metamask/detect-provider";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -15,6 +15,7 @@ const MetaMask = ({ data }) => {
   const [tip, setTip] = useState("");
   const [equity, setEquity] = useState(0);
   const [usdPrice, setUsdPrice] = useState("");
+  console.log(hasProvider,error,errorMessage)
   useEffect(() => {
     const refreshAccounts = (accounts) => {
       if (accounts.length > 0) {
@@ -195,10 +196,21 @@ const navigate=useNavigate()
               <button
                 className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 mt-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 type="button"
+                disabled={!hasProvider}
+                style={{
+                  cursor: !hasProvider ? "not-allowed" : "pointer",
+                }}
+                title={
+                  !hasProvider
+                    ? "You Must have MetaMask Installed on your Browser"
+                    : ""
+                   
+                }
                 onClick={handleConnectMetamask}
               >
                 Connect MetaMask
               </button>
+              {!hasProvider && <p className="text-red-600 pt-2">Please Install MetaMask:  <a className="text-blue-700 hover:underline" target="_blank" href="https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?pli=1">Click here</a> </p> }
             </div>
           )}
           {wallet.accounts.length > 0 && (

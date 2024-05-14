@@ -3,11 +3,16 @@
   margin: 0 auto;
   /* padding: 2rem; */
   /* overflow: hidden; */
-
+  overflow-x: hidden;
+  overflow-x: clip !important;
  
 }
 ::-webkit-scrollbar {
   display: none;
+}
+
+.banner{
+  background: linear-gradient(to right, rgb(0, 0, 0),rgba(44, 40, 40, 0.1)) !important;
 }
 
 .logo {
