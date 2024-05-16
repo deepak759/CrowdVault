@@ -9,19 +9,19 @@ const InvestmentCard = ({ item, category }) => {
       <img
         src={item.coverImage}
         alt={item.title}
-        className="w-full object-cover rounded-md mb-2 h-64"
+        className="w-full object-cover rounded-t-md mb-2 h-64"
       />
       <h1 className="text-xl h-16 font-bold mb-2 px-3">{item.title}</h1>
       <p className="text-gray-700 mb-2 px-3">{item.description.substring(0,200)}...</p>
-      <div className="flex justify-between mb-2 px-3">
-        <h2 className="font-semibold">
+      <div className=" justify-between mb-2 space-y-1 mt-2 px-3">
+        <h2 className="font-semibold  ">
           {category === "invested" ? (
             <span>
               <span className="font-bold">Invested:</span>{" "}
               <span className="font-semibold">{item.invested} USD</span>
             </span>
           ) : (
-            <span>
+            <span >
               <span className="font-bold">Amount Required: </span>
               <span className="font-semibold">{item.amountRequired} USD</span>
             </span>

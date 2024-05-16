@@ -6,6 +6,7 @@ import {
   getSpecChampaign,
   investIn,
   searchHandler,
+  deleteCampaign,
   payment,
   updateChampaign,
 } from "../controllers/champaignController.js";
@@ -18,6 +19,7 @@ router.get("/getAllChampaigns", getAllChampaigns);
 router.get("/getSpecChampaign/:id", getSpecChampaign);
 router.post("/updateChampaign/:id", verifyUser, updateChampaign);
 router.post("/invested/:id", verifyUser, investIn);
+router.delete("/delete/:id", verifyUser, deleteCampaign);
 router.post("/payment/:id", verifyUser, payment);
 router.get("/search/", searchHandler);
 
