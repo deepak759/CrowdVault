@@ -17,6 +17,7 @@ const DetailedChampaign = () => {
   const [tip, setTip] = useState(250);
   const { currentUser } = useSelector((state) => state.user);
   const [showCrypto, setShowCrypto] = useState(false);
+ 
 
   const params = useParams();
 
@@ -206,6 +207,7 @@ const DetailedChampaign = () => {
                   <input
                     type="number"
                     required
+                    min={1}
                     placeholder="eg. 4500"
                     max={data.amountRequired - data.amountGained}
                     onChange={(e) => {
@@ -280,6 +282,7 @@ const DetailedChampaign = () => {
               >
                 Invest Using {showCrypto?"Doller":"Crypto"}
               </button>
+             <p className="mt-3 text-red-500">{!isLogin?"You Need to Login before Inveting":isOwner?"Owner cannot Invest In their own Campaign":""}</p> 
             </div>
           </div>
         </div>

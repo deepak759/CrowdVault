@@ -18,7 +18,7 @@ const InvestmentCard = ({ item, category }) => {
           {category === "invested" ? (
             <span>
               <span className="font-bold">Invested:</span>{" "}
-              <span className="font-semibold">{item.invested}</span>
+              <span className="font-semibold">{item.invested} USD</span>
             </span>
           ) : (
             <span>
@@ -38,7 +38,7 @@ const InvestmentCard = ({ item, category }) => {
             
             <span>
               <span className="font-bold">Amount Gained:</span>{" "}
-              <span className="font-semibold">{item.amountGained}</span>
+              <span className="font-semibold">{item.amountGained} USD</span>
             </span>
             }
         </h2>

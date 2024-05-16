@@ -24,6 +24,7 @@ function App() {
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path='/search/:searchTerm' element={<SearchResult /> }/>
+        
          
           <Route
             path="/detailedChamapaign/:id"
