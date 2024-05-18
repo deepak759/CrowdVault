@@ -13,18 +13,18 @@ const CampaignCard = ({item}) => {
     <div className="">
      
         <Link to={`/detailedChamapaign/${item._id}`} key={item._id}>
-          <div className="  border border-gray-300 rounded-lg shadow-lg bg-gray-100 flex flex-col">
+          <div className="  border pb-4 border-gray-300 rounded-lg shadow-lg bg-gray-100 flex flex-col">
             <img
-              className="rounded-t-lg object-cover h-64"
+              className="rounded-t-lg object-cover h-60"
               src={item.coverImage}
               alt=""
             />
-            <div className="flex flex-col flex-grow p-5">
+            <div className="flex flex-col flex-grow px-4">
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 h-16 overflow-hidden">
                 {item.title}
               </h5>
               <p className="text-gray-600 text-sm mt-1">
-              {item.description.substring(0, 120) }...
+              {item.description.substring(0, 80) }...
                 
               </p>
               <ProgressBar

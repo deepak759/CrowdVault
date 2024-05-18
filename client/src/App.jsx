@@ -13,6 +13,7 @@ import Header from "./components/Header";
 import Success from "./pages/Success";
 import UpdateChampaign from "./pages/UpdateChampaign";
 import SearchResult from "./pages/SearchResult";
+import Footer from "./components/Footer";
 function App() {
   
   return (
@@ -40,6 +41,7 @@ function App() {
           </Route>
         </Routes>
       </div>
+      <Footer/>
     </BrowserRouter>
   );
 }

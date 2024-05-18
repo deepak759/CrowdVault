@@ -8,9 +8,10 @@ import Hometop2Bg from "../assets/top2.png";
 import CampaignCard from "../components/CampaignCard";
 import { useEffect, useState } from "react";
 import Loader from "../components/Loader";
+import { useSelector } from "react-redux";
 const Home = () => {
   const [data, setData] = useState(null);
-
+  const { currentUser } = useSelector((state) => state.user);
   useEffect(() => {
     const getData = async () => {
       try {
@@ -57,10 +58,10 @@ const Home = () => {
                 <div className=" absolute flex flex-col justify-center  px-3  inset-0">
                   <div className=" topbanner  flex justify-around px-3  inset-0">
                     <div className=" w-[85%] my-auto md:w-[60%] ">
-                      <h1 className="text-2xl md:text-5xl font-bold text-gray-800  md:mb-4">
+                      <h1 className="text-2xl md:text-5xl font-bold text-gray-100 md:text-gray-800  md:mb-4">
                         Are You looking for Investing,
                       </h1>
-                      <h1 className="text-xl md:text-6xl font-bold text-gray-800 md:mb-4">
+                      <h1 className="text-xl md:text-6xl font-bold text-gray-100 md:text-gray-800 md:mb-4">
                         Invest in Batches, Secure Your Investment
                       </h1>
                       <p className=" hidden md:block md:text-2xl md:mr-24 text-gray-200">
@@ -69,12 +70,12 @@ const Home = () => {
                         safe and you can withdraw whenever you want.
                       </p>
                       <div className=" mt-3  text-xl">
-                        <Link
+                       {!currentUser && <Link
                           to={"/signin"}
                           className="inline-block bg-blue-600 text-white px-4 md:mt-3 py-2 rounded-md transition duration-300 ease-in-out transform hover:scale-105 hover:bg-blue-600"
                         >
                           Get Started
-                        </Link>
+                        </Link>}
                       </div>
                     </div>
                     <div className="flex my-auto justify-end">
@@ -101,10 +102,10 @@ const Home = () => {
                 <div className=" absolute flex flex-col justify-center  px-3  inset-0">
                   <div className=" topbanner  flex justify-around px-3  inset-0">
                     <div className=" w-[85%] my-auto md:w-[60%] ">
-                      <h1 className="text-2xl md:text-5xl text-gray-900 font-bold  md:mb-4">
+                      <h1 className="text-2xl md:text-5xl text-gray-100 md:text-gray-800 font-bold  md:mb-4">
                         Are You a EnterPreneur
                       </h1>
-                      <h1 className="text-xl md:text-6xl font-bold text-gray-800 md:mb-4">
+                      <h1 className="text-xl md:text-6xl font-bold text-gray-100 md:text-gray-800 md:mb-4">
                         Share your idea with us and get funded!
                       </h1>
                       <p className=" hidden md:block   md:text-2xl md:mr-24 text-gray-200">
@@ -113,12 +114,12 @@ const Home = () => {
                         safe and you can withdraw whenever you want.
                       </p>
                       <div className=" mt-3  text-xl">
-                        <Link
+                       {!currentUser && <Link
                           to={"/signin"}
                           className="inline-block md:mt-3 bg-blue-600 text-white px-4 py-2 rounded-md transition duration-300 ease-in-out transform hover:scale-105 hover:bg-blue-600"
                         >
                           Get Started
-                        </Link>
+                        </Link>}
                       </div>
                     </div>
                     <div className="flex my-auto justify-end">
@@ -139,7 +140,7 @@ const Home = () => {
         <h1 className="text-center mb-6 font-bold  text-4xl uppercase">
           Campaigns
         </h1>
-        <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 justify-items-center">
+        <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 justify-items-center">
           {data.map((item) => (
             <div key={item._id} className="">
               <CampaignCard item={item} />
