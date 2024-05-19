@@ -16,6 +16,15 @@ const userSchema = new mongoose.Schema({
   },
   isVarified: {
     type: Boolean,
+    default:false
+  },
+  isAdmin: {
+    type: Boolean,
+    default:false
+  },
+  varificationDocURL: {
+    type: String,
+    default:""
   },
   invested: {
     type: [

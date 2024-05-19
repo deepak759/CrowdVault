@@ -136,7 +136,7 @@ const navigate=useNavigate()
         pauseOnHover
         theme="light"
       />
-      <h1 className="text-5xl font-bold mb-4 capitalize pb-6 text-center">
+      <h1 className="text-4xl font-bold mb-4 capitalize pb-6 text-center">
         {data.title}
       </h1>
 
@@ -146,7 +146,7 @@ const navigate=useNavigate()
             <img
               src={data.coverImage}
               alt=""
-              className="w-full h-auto rounded-lg"
+              className="w-full h-auto rounded-t-lg"
             />
           </div>
           <p className="text-gray-700 px-4">{data.description}</p>

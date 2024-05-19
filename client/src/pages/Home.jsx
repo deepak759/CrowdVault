@@ -81,7 +81,7 @@ const Home = () => {
                     <div className="flex my-auto justify-end">
                       <img
                         src={HometopBg}
-                        className=" w-[90%] md:w-full opacity-90"
+                        className=" w-[90%] md:w-full opacity-100"
                         alt=""
                       />
                     </div>
@@ -103,7 +103,7 @@ const Home = () => {
                   <div className=" topbanner  flex justify-around px-3  inset-0">
                     <div className=" w-[85%] my-auto md:w-[60%] ">
                       <h1 className="text-2xl md:text-5xl text-gray-100 md:text-gray-800 font-bold  md:mb-4">
-                        Are You a EnterPreneur
+                        Are You a EnterPreneur,
                       </h1>
                       <h1 className="text-xl md:text-6xl font-bold text-gray-100 md:text-gray-800 md:mb-4">
                         Share your idea with us and get funded!
@@ -125,7 +125,7 @@ const Home = () => {
                     <div className="flex my-auto justify-end">
                       <img
                         src={Hometop2Bg}
-                        className="w-[90%] md:w-full  opacity-90"
+                        className="w-[90%] md:w-full  opacity-100"
                         alt=""
                       />
                     </div>
@@ -140,7 +140,7 @@ const Home = () => {
         <h1 className="text-center mb-6 font-bold  text-4xl uppercase">
           Campaigns
         </h1>
-        <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 justify-items-center">
+        <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 justify-items-center">
           {data.map((item) => (
             <div key={item._id} className="">
               <CampaignCard item={item} />
