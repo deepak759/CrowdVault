@@ -1,12 +1,20 @@
 import { useEffect, useState } from "react";
 import Loader from "../components/Loader";
 import InvestmentCard from "../components/InvestmentCard";
+import { MdVerified } from "react-icons/md";
+import { useDispatch } from "react-redux";
+import {
+
+  updateUserSuccess,
+} from "../redux/user/userSlice";
 
 const Profile = () => {
   const [start, setStart] = useState(false);
   const [showCategory, setShowCategory] = useState("Investments");
   const [data, setData] = useState();
-
+  const [showForm, setShowForm] = useState(false);
+  const [varificationDocURL, setVarificationDocURL] = useState(false);
+  const dispatch = useDispatch();
   useEffect(() => {
     const getUserData = async () => {
       try {
@@ -21,7 +29,28 @@ const Profile = () => {
     };
     getUserData();
   }, []);
+  console.log(data);
 
+  const handleVerifySubmit = async(e) => {
+    e.preventDefault();
+    try {
+      const res=await fetch(`/api/user/verifyProfile`,{
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({varificationDocURL}),
+      })
+    const data=await res.json();
+    if(data.success==false){
+      console.log(data.message)
+    }else{
+      dispatch(updateUserSuccess(data));
+    }
+    } catch (error) {
+      console.log(error)
+    }
+  };
   useEffect(() => {
     if (data) {
       const updatedChampaigns = data.investedChampaigns.map((item) => {
@@ -52,6 +81,63 @@ const Profile = () => {
   return (
     <div className="flex mt-10 mx-10 md:mx-20">
       <div className="w-full">
+        <div className="text-lg flex justify-between my-2 p-6 bg-white shadow-md rounded-lg">
+          <div className="w-1/2 my-8 ">
+            <h1 className="font-semibold mb-2 flex items-center">
+              <span className="font-bold">UserName:</span> {data.user.userName}
+              {data.user.isVarified && (
+                <MdVerified className="text-blue-600 text-2xl ml-2" />
+              )}
+            </h1>
+
+            <h1 className="font-semibold mb-4">
+              <span className="font-bold">Registered email:</span>{" "}
+              {data.user.email}
+            </h1>
+            {!data.user.isVarified && !data.user.varificationDocURL ? (
+              <button
+                onClick={() => setShowForm(!showForm)}
+                className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition"
+              >
+                Verify Yourself
+              </button>
+            ) : (
+              data.user.varificationDocURL? <div className="bg-green-600 max-w-sm text-white py-2 px-4 rounded hover:bg-green-700 transition">Verification Pending</div> :""
+            )}
+          </div>
+          <div className="w-1/2">
+            {showForm && (
+              <form
+                onSubmit={handleVerifySubmit}
+                className="bg-gray-100 p-4 rounded shadow-sm"
+              >
+                <div className="mb-4">
+                  <label
+                    htmlFor="verification-doc"
+                    className="block font-semibold mb-2"
+                  >
+                    Verification Document
+                  </label>
+                  <input
+                    id="verification-doc"
+                    type="text"
+                    required
+                    onChange={(e) => setVarificationDocURL(e.target.value)}
+                    placeholder="Upload your work history or patent certificate"
+                    className="w-full p-2 border border-gray-300 rounded"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 transition"
+                >
+                  Submit Request
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+
         <div className="flex bg-gray-200 justify-around">
           <button
             className={`hover:cursor-pointer ${
@@ -86,7 +172,7 @@ const Profile = () => {
           ) : data.createdChampaigns.length > 0 ? (
             data.createdChampaigns.map((item) => (
               <div className="" key={item._id}>
-                <InvestmentCard item={item} category={"created"}  />
+                <InvestmentCard item={item} category={"created"} />
               </div>
             ))
           ) : (

@@ -42,8 +42,8 @@ function App() {
             <Route path="/createBatch/:id" element={<CreateBatch />} />
             <Route path="/createChampaign" element={<CreateChampaign />} />
             <Route path="/updateChampaign/:id" element={<UpdateChampaign />} />
-            <Route element={<AdminRoute />}>
             <Route path="/profile" element={<Profile />} />
+            <Route element={<AdminRoute />}>
               <Route path="/adminProfile/" element={<AdminProfile />} />
             </Route>
           </Route>

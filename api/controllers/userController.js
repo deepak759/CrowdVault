@@ -66,3 +66,14 @@ export const logOutUser = async (req, res, next) => {
     next(error);
   }
 };
+
+
+export const verifyProfile=async(req,res,next)=>{
+  const {varificationDocURL}=req.body
+  try {
+   const verifyReq=await User.findByIdAndUpdate(req.user.id,{varificationDocURL},{new:true})
+    res.status(200).json(verifyReq)
+  } catch (error) {
+    next(error)
+  }
+}

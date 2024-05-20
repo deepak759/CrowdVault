@@ -141,7 +141,7 @@ const AdminProfile = () => {
                     ))}
                   </div>
                 ) : (
-                  "No such Campaigns"
+                  <h1 className="text-4xl font-bold text-center mt-10">No such data...</h1> 
                 )
               ) : active == 1 ||
                 active == 2 ||
@@ -158,7 +158,8 @@ const AdminProfile = () => {
                     ))}
                   </div>
                 ) : (
-                  "No such data"
+                  <h1 className="text-4xl font-bold text-center mt-10">No such data...</h1> 
+
                 )
               ) : (
                 ""
