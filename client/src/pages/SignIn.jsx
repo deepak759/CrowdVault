@@ -6,42 +6,41 @@ import {
   signInStart,
   signInFail,
   signInSuccess,
-} from '../redux/user/userSlice'
+} from "../redux/user/userSlice";
 export default function SignIn() {
   const [formdata, setFormData] = useState();
   const navigate = useNavigate();
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
 
-  const {loading,error}=useSelector((state)=>state.user)
+  const { loading, error } = useSelector((state) => state.user);
   const handleChange = (e) => {
-    setFormData({ ...formdata, [e.target.name]: e.target.value, });
+    setFormData({ ...formdata, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      dispatch(signInStart())
+      dispatch(signInStart());
       const res = await fetch("/api/user/signin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formdata)
+        body: JSON.stringify(formdata),
       });
-      const data=await res.json();
+      const data = await res.json();
 
-      if(data.success===false){
-      dispatch(signInFail(data.message))
-      console.log(error)
-        return
+      if (data.success === false) {
+        dispatch(signInFail(data.message));
+        console.log(error);
+        return;
       }
-     dispatch(signInSuccess(data))
-       navigate('/')
-     
+      dispatch(signInSuccess(data));
+      if (data.isAdmin) navigate("/adminProfile");
+      else navigate("/profile");
     } catch (error) {
-      dispatch(signInFail(error.message))
+      dispatch(signInFail(error.message));
     }
-   
   };
   return (
     <div className="login-box mt-80 sm:w-[500px]">
@@ -64,7 +63,6 @@ export default function SignIn() {
             name="password"
             placeholder="Enter your Password"
             onChange={handleChange}
-           
             required
           />
           <label>Password</label>
@@ -75,7 +73,7 @@ export default function SignIn() {
             <span></span>
             <span></span>
             <span></span>
-          {loading?'Loading...' : 'LogIn'}
+            {loading ? "Loading..." : "LogIn"}
           </button>
           <p className="login-text">
             Not have an Account ?{" "}
@@ -85,8 +83,7 @@ export default function SignIn() {
               </a>
             </span>
           </p>
-      {error && <p className="error">{error}</p>}
-
+          {error && <p className="error">{error}</p>}
         </div>
       </form>
     </div>

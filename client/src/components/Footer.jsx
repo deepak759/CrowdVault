@@ -14,7 +14,7 @@ const Footer = () => {
     window.location.href = mailtoLink;
   };
   return (
-    <footer className="bg-[#1f2937] text-white p-6">
+    <footer className="bg-[#1f2937] relative  bottom-0 w-full text-white p-6">
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-start  space-y-6 md:space-y-0">
         <div className="md:w-2/5 md:pr-14">
           <h2 className="text-lg font-bold mb-2">CrowdVault</h2>
@@ -25,17 +25,17 @@ const Footer = () => {
             trust is lost, promoting transparency and confidence
           </p>
           <div className="flex space-x-4 text-xl mt-4">
-            <a href="#" className="text-gray-200 hover:text-gray-100">
+            <a href="https://www.instagram.com/deepak_sharma611/" target="_blank" className="text-gray-200 hover:text-gray-100">
               <i className="fab fa-instagram">
                 <FaInstagram />
               </i>
             </a>
-            <a href="#" className="text-gray-200 hover:text-gray-100">
+            <a href="https://www.linkedin.com/in/deepak-sharma-97932a203/" target="_blank" className="text-gray-200 hover:text-gray-100">
               <i className="fab fa-linkedin">
                 <FaLinkedin />
               </i>
             </a>
-            <a href="#" className="text-gray-200 hover:text-gray-100">
+            <a href="https://x.com/S22617299Deepak"  target="_blank" className="text-gray-200 hover:text-gray-100">
               <i className="fab fa-twitter">
                 <FaTwitter />
               </i>

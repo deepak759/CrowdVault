@@ -5,6 +5,8 @@ import cookieParser from "cookie-parser";
 import session from "express-session";
 import champaignRouter from './routes/champaignRoutes.js'
 import userRouter from './routes/userRoutes.js'
+import adminRouter from './routes/adminRoutes.js'
+
 
 
 dotenv.config();
@@ -31,6 +33,7 @@ app.use(session({
 
 app.use('/api/champaign',champaignRouter)
 app.use('/api/user',userRouter)
+app.use('/api/admin',adminRouter)
 
 
 app.use((err, req, res, next) => {

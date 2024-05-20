@@ -5,6 +5,7 @@
   /* overflow: hidden; */
   overflow-x: hidden;
   overflow-x: clip !important;
+  min-height: 40vh;
  
 }
 ::-webkit-scrollbar {
@@ -12,8 +13,10 @@
 }
 
 .banner{
+  
   background: linear-gradient(to right, rgb(0, 0, 0),rgba(44, 40, 40, 0.1)) !important;
 }
+
 
 .logo {
   height: 6em;

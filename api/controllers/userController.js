@@ -2,6 +2,7 @@ import User from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { errorHandler } from "../utils/error.js";
+
 import Champaign from "../models/champaignModel.js";
 export const createUser = async (req, res, next) => {
   const { userName, email, password } = req.body;

@@ -1,7 +1,7 @@
 import Champaign from "../models/champaignModel.js";
 import User from "../models/userModel.js";
 import { errorHandler } from "../utils/error.js";
-
+import mongoose from "mongoose";
 import Stripe from "stripe";
 
 const stripe = new Stripe(
@@ -80,7 +80,7 @@ export const getSpecChampaign = async (req, res, next) => {
   }
 };
 
-import mongoose from "mongoose";
+
 
 export const deleteCampaign = async (req, res, next) => {
   const campaignId = req.params.id;

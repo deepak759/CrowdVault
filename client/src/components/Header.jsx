@@ -22,7 +22,6 @@ export default function Header() {
     setSearchText("");
     navigate(url);
   };
-
   const handleOutsideClick = (e) => {
     if (menuRef.current && !menuRef.current.contains(e.target)) {
       setMenuOpen(false);
@@ -90,30 +89,7 @@ export default function Header() {
                       Create Campaign
                     </Link>
                   </li>
-                  {/* <li className="mb-2">
-                    <Link
-                      to="/products"
-                      className="no-underline hover:underline "
-                    >
-                      Products
-                    </Link>
-                  </li>
-                  <li className="mb-2">
-                    <Link
-                      to="/create-blog"
-                      className="no-underline hover:underline "
-                    >
-                      Write Blog
-                    </Link>
-                  </li>
-                  <li className="mb-2">
-                    <Link
-                      to="/create-product"
-                      className="no-underline hover:underline "
-                    >
-                      Add Products
-                    </Link>
-                  </li> */}
+                  
                   <li className="mb-2">
                     {currentUser ? (
                       <div className=" ">
@@ -125,7 +101,7 @@ export default function Header() {
                     </button>
                     <br />
                       <Link
-                        to="/profile"
+                        to={currentUser.isAdmin?"/adminProfile":"/profile"}
                         className="no-underline hover:underline  "
                       >
                         Go to Profile
@@ -209,7 +185,7 @@ export default function Header() {
                     >
                       Logout
                     </button>
-                    <Link to="/profile">
+                    <Link  to={currentUser.isAdmin?"/adminProfile":"/profile"}>
                       <img
                         src={ProfilePic}
                         className="w-10 h-10 rounded-full"

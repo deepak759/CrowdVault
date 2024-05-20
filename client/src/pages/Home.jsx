@@ -140,7 +140,7 @@ const Home = () => {
         <h1 className="text-center mb-6 font-bold  text-4xl uppercase">
           Campaigns
         </h1>
-        <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 justify-items-center">
+        <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-4 justify-items-center">
           {data.map((item) => (
             <div key={item._id} className="">
               <CampaignCard item={item} />

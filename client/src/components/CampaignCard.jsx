@@ -13,7 +13,7 @@ const CampaignCard = ({item}) => {
     <div className="">
      
         <Link to={`/detailedChamapaign/${item._id}`} key={item._id}>
-          <div className="  border pb-4 border-gray-300 rounded-lg shadow-lg bg-gray-100 flex flex-col">
+          <div className=" max-w-sm  border pb-4 border-gray-300 rounded-lg shadow-lg bg-gray-100 flex flex-col">
             <img
               className="rounded-t-lg object-cover h-60"
               src={item.coverImage}
