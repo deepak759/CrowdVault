@@ -215,7 +215,7 @@ const navigate=useNavigate()
                   ))
                 : "Batch information not available"}
             </div>
-            <div className="flex items-center mt-8">
+           {isOwner && <div className="flex items-center mt-8">
               <Link
                 to={`/createBatch/${params.id}`}
                 className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 mr-4"
@@ -226,7 +226,7 @@ const navigate=useNavigate()
                 Note: Adding batches helps investors to understand your project
                 in a better way.
               </p>
-            </div>
+            </div>}
           </div>
         </div>
 

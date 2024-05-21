@@ -17,6 +17,9 @@ import Footer from "./components/Footer";
 import AdminProfile from "./pages/AdminProfile";
 import AdminRoute from "./components/AdminRoute";
 import GetProfile from "./pages/GetProfile";
+import AboutUs from "./pages/AboutUs";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsAndCondition from "./pages/TermsAndCondition";
 function App() {
   return (
     <BrowserRouter>
@@ -26,6 +29,9 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/aboutUs" element={<AboutUs />} />
+          <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
+          <Route path="/termsAndCondition" element={<TermsAndCondition />} />
           <Route path="/search/:searchTerm" element={<SearchResult />} />
 
           <Route

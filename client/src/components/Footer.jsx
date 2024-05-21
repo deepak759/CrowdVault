@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FaLinkedin, FaTwitter } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa6";
 const Footer = () => {
-  const [email, setEmail] = useState("");
+ 
   const [message, setMessage] = useState("");
 
   const handleSubmit = (event) => {
@@ -43,32 +43,23 @@ const Footer = () => {
           </div>
         </div>
         <div className="flex flex-col md:w-1/5 space-y-2">
-          <a href="#" className="text-gray-200 hover:text-gray-100">
+          <a href="/" className="text-gray-200 hover:text-gray-100">
             Home
           </a>
-          <a href="#" className="text-gray-200 hover:text-gray-100">
+          <a href="/aboutUs" className="text-gray-200 hover:text-gray-100">
             About Us
           </a>
-          <a href="#" className="text-gray-200 hover:text-gray-100">
+          <a href="privacyPolicy" className="text-gray-200 hover:text-gray-100">
             Privacy Policy
           </a>
-          <a href="#" className="text-gray-200 hover:text-gray-100">
+          <a href="/termsAndCondition" className="text-gray-200 hover:text-gray-100">
             Terms and Conditions
           </a>
         </div>
         <div className="w-full text-black md:w-2/5 ">
           <h3 className="text-lg text-white font-bold mb-2">Contact Us</h3>
           <form onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <input
-                type="email"
-                placeholder="Enter your email address"
-                className="w-full p-2 border border-gray-300 rounded-md"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
+          
             <div className="mb-4">
               <textarea
                 placeholder="Write Your Message Here"
