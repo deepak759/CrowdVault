@@ -3,16 +3,14 @@ import Loader from "../components/Loader";
 import InvestmentCard from "../components/InvestmentCard";
 import { MdVerified } from "react-icons/md";
 import { useDispatch } from "react-redux";
-import {
-
-  updateUserSuccess,
-} from "../redux/user/userSlice";
+import { updateUserSuccess } from "../redux/user/userSlice";
 
 const Profile = () => {
   const [start, setStart] = useState(false);
   const [showCategory, setShowCategory] = useState("Investments");
   const [data, setData] = useState();
   const [showForm, setShowForm] = useState(false);
+  const [requested, setRequested] = useState(false);
   const [varificationDocURL, setVarificationDocURL] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -31,40 +29,43 @@ const Profile = () => {
   }, []);
   console.log(data);
 
-  const handleVerifySubmit = async(e) => {
+  const handleVerifySubmit = async (e) => {
     e.preventDefault();
     try {
-      const res=await fetch(`/api/user/verifyProfile`,{
+      const res = await fetch(`/api/user/verifyProfile`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({varificationDocURL}),
-      })
-    const data=await res.json();
-    if(data.success==false){
-      console.log(data.message)
-    }else{
-      dispatch(updateUserSuccess(data));
-    }
+        body: JSON.stringify({ varificationDocURL }),
+      });
+      const data = await res.json();
+      if (data.success == false) {
+        console.log(data.message);
+      } else {
+        setShowForm(false)
+        setRequested(true)
+        dispatch(updateUserSuccess(data));
+      }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
   useEffect(() => {
     if (data) {
       const updatedChampaigns = data.investedChampaigns.map((item) => {
-        const investedItem = data.user.invested.find(
-          (investedItem) =>(investedItem.champaignID === item._id && investedItem.isBuffer==true) || investedItem.champaignID === item._id 
+        const investedItems = data.user.invested.filter(
+          (investedItem) => investedItem.champaignID === item._id
         );
-        if (investedItem  && investedItem.isBuffer) {
-          item.bufferEquityHolder =   investedItem.equity;
-          item.bufferInvested = investedItem.invested;
-        }
-       else if(investedItem) {
-          item.equityHolder =   investedItem.equity;
-          item.invested = investedItem.invested;
-        }
+        investedItems.forEach((investedItem) => {
+          if ( investedItem.isBuffer) {
+            item.bufferEquityHolder = investedItem.equity;
+            item.bufferInvested = investedItem.invested;
+          } else  {
+            item.equityHolder = investedItem.equity;
+            item.invested = investedItem.invested;
+          }
+        });
         return item;
       });
 
@@ -74,7 +75,7 @@ const Profile = () => {
       }));
     }
   }, [start]);
-console.log(data)
+  console.log(data);
   if (!data)
     return (
       <div className="">
@@ -101,12 +102,17 @@ console.log(data)
             {!data.user.isVarified && !data.user.varificationDocURL ? (
               <button
                 onClick={() => setShowForm(!showForm)}
+                disabled={requested}
                 className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition"
               >
-                Verify Yourself
+               {requested?" Verification Pending":" Verify Yourself"}
               </button>
+            ) : data.user.varificationDocURL ? (
+              <div className="bg-green-600 max-w-sm text-white py-2 px-4 rounded hover:bg-green-700 transition">
+                Verification Pending
+              </div>
             ) : (
-              data.user.varificationDocURL? <div className="bg-green-600 max-w-sm text-white py-2 px-4 rounded hover:bg-green-700 transition">Verification Pending</div> :""
+              ""
             )}
           </div>
           <div className="w-1/2">
