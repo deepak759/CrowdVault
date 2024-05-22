@@ -80,8 +80,6 @@ export const getSpecChampaign = async (req, res, next) => {
   }
 };
 
-
-
 export const deleteCampaign = async (req, res, next) => {
   const campaignId = req.params.id;
   const owner = req.user.id;
@@ -95,13 +93,13 @@ export const deleteCampaign = async (req, res, next) => {
     if (!campaign) {
       await session.abortTransaction();
       session.endSession();
-      return next(errorHandler(404,"Campaign not found"));
+      return next(errorHandler(404, "Campaign not found"));
     }
 
-    if(owner!==campaign.userRef){
+    if (owner !== campaign.userRef) {
       await session.abortTransaction();
       session.endSession();
-      return next(errorHandler(502,"You are not authenticated to delete"));
+      return next(errorHandler(502, "You are not authenticated to delete"));
     }
 
     await campaign.deleteOne({ session });
@@ -113,7 +111,7 @@ export const deleteCampaign = async (req, res, next) => {
     if (!userUpdate) {
       await session.abortTransaction();
       session.endSession();
-      return next(errorHandler(403,"failed to Update User"));
+      return next(errorHandler(403, "failed to Update User"));
     }
 
     await session.commitTransaction();
@@ -130,26 +128,98 @@ export const investIn = async (req, res, next) => {
   const investorID = req.user.id;
   const champaignID = req.params.id;
   const { invested, equity } = req.body;
+ 
+
   try {
+    // Find the investor and campaign by ID
     const investor = await User.findById(investorID);
-
     const champaign = await Champaign.findById(champaignID);
+    
+    if (!investor || !champaign) {
+      return res.status(404).json({ message: "Investor or Campaign not found" });
+    }
 
-    champaign.amountGained += parseInt(invested);
+    // Flag to check if the investor has previously invested
+    let isPrevInvested = false;
 
-    champaign.investors.push({ investorID, equity, invested });
+    // If campaign is still gathering initial funds
+    if (champaign.amountGained < champaign.amountRequired) {
+      // Update existing investment or add new investment
+      champaign.investors.forEach((item) => {
+        if (item.investorID === investorID && !item.isBuffer) {
+          item.invested += parseFloat(invested);
+          item.equity += parseFloat(equity);
+          isPrevInvested = true;
+        }
+      });
+      if (!isPrevInvested) {
+        champaign.investors.push({ investorID, equity:parseFloat(equity), invested:parseFloat(invested) });
+      }
 
-    const updatedChampaign = await champaign.save();
+      champaign.amountGained += parseFloat(invested);
+      
+      // Save the updated campaign
+      const updatedChampaign = await champaign.save();
 
-    investor.invested.push({ champaignID, invested, equity });
+      // Update investor's record
+      let isprevShareHolder = false;
+      investor.invested.forEach((item) => {
+        if (item.champaignID === champaignID && !item.isBuffer) {
+          item.invested += parseFloat(invested);
+          item.equity += parseFloat(equity);
+          isprevShareHolder = true;
+        }
+      });
 
-    const updatedUser = await investor.save();
+      if (!isprevShareHolder) {
+        investor.invested.push({ champaignID, invested:parseFloat(invested), equity:parseFloat(equity) });
+      }
 
-    res.status(200).json({ updatedChampaign, updatedUser });
+      const updatedUser = await investor.save();
+
+      res.status(200).json({ updatedChampaign, updatedUser, isBuffer: false });
+
+    } else {
+      // Campaign has met the initial funding goal, handle buffer investments
+      let isPrevBufferInvestor = false;
+
+      champaign.investors.forEach((item) => {
+        if (item.investorID === investorID && item.isBuffer) {
+          item.invested += parseFloat(invested);
+          item.equity += parseFloat(equity);
+          isPrevBufferInvestor = true;
+        }
+      });
+
+      if (!isPrevBufferInvestor) {
+        champaign.investors.push({ investorID, equity:parseFloat(equity), invested:parseFloat(invested), isBuffer: true });
+      }
+
+      champaign.bufferAmountGained += parseFloat(invested);
+      const updatedChampaign = await champaign.save();
+
+      let isPrevBufferInvested = false;
+      investor.invested.forEach((item) => {
+        if (item.champaignID === champaignID && item.isBuffer) {
+          item.invested += parseFloat(invested);
+          item.equity += parseFloat(equity);
+          isPrevBufferInvested = true;
+        }
+      });
+
+      if (!isPrevBufferInvested) {
+        investor.invested.push({ champaignID, invested:parseFloat(invested), equity:parseFloat(equity), isBuffer: true });
+      }
+
+      const updatedUser = await investor.save();
+
+      res.status(200).json({ updatedChampaign, updatedUser, isBuffer: true });
+    }
   } catch (error) {
     next(error);
   }
 };
+
 
 export const searchHandler = async (req, res, next) => {
   const searchTerm = req.query.searchTerm || "money";

@@ -55,10 +55,14 @@ const Profile = () => {
     if (data) {
       const updatedChampaigns = data.investedChampaigns.map((item) => {
         const investedItem = data.user.invested.find(
-          (investedItem) => investedItem.champaignID === item._id
+          (investedItem) =>(investedItem.champaignID === item._id && investedItem.isBuffer==true) || investedItem.champaignID === item._id 
         );
-        if (investedItem) {
-          item.equityHolder = investedItem.equity;
+        if (investedItem  && investedItem.isBuffer) {
+          item.bufferEquityHolder =   investedItem.equity;
+          item.bufferInvested = investedItem.invested;
+        }
+       else if(investedItem) {
+          item.equityHolder =   investedItem.equity;
           item.invested = investedItem.invested;
         }
         return item;
@@ -70,7 +74,7 @@ const Profile = () => {
       }));
     }
   }, [start]);
-
+console.log(data)
   if (!data)
     return (
       <div className="">

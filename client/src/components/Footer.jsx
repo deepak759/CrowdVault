@@ -49,11 +49,14 @@ const Footer = () => {
           <a href="/aboutUs" className="text-gray-200 hover:text-gray-100">
             About Us
           </a>
-          <a href="privacyPolicy" className="text-gray-200 hover:text-gray-100">
+          <a href="privacyPolicy" target="_blank" className="text-gray-200 hover:text-gray-100">
             Privacy Policy
           </a>
-          <a href="/termsAndCondition" className="text-gray-200 hover:text-gray-100">
+          <a href="/termsAndCondition" target="_blank" className="text-gray-200 hover:text-gray-100">
             Terms and Conditions
+          </a>
+          <a href="/aboutBuffer" target="_blank" className="text-gray-200 hover:text-gray-100">
+            Buffer System 
           </a>
         </div>
         <div className="w-full text-black md:w-2/5 ">

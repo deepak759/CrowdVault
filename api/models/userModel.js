@@ -31,7 +31,11 @@ const userSchema = new mongoose.Schema({
       {
         invested:Number,
         champaignID:String,
-        equity:Number
+        equity:Number,
+        isBuffer:{
+          type:Boolean,
+          default:false
+        }
       }
     ],
   },

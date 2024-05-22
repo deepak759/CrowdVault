@@ -20,6 +20,7 @@ import GetProfile from "./pages/GetProfile";
 import AboutUs from "./pages/AboutUs";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsAndCondition from "./pages/TermsAndCondition";
+import AboutBuffer from "./pages/AboutBuffer";
 function App() {
   return (
     <BrowserRouter>
@@ -32,6 +33,7 @@ function App() {
           <Route path="/aboutUs" element={<AboutUs />} />
           <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
           <Route path="/termsAndCondition" element={<TermsAndCondition />} />
+          <Route path="/aboutBuffer" element={<AboutBuffer />} />
           <Route path="/search/:searchTerm" element={<SearchResult />} />
 
           <Route

@@ -41,9 +41,19 @@ const DetailedChampaign = () => {
   }, [currentUser]);
 
   const handleInvestmentChange = () => {
-    const eqty = ((investment / data.amountRequired) * data.equity).toFixed(4);
+    if (data.amountGained === data.amountRequired) {
+      const eqty = ((investment / data.amountRequired) *2* data.equity).toFixed(
+        4
+      );
 
-    setEquity(eqty);
+      setEquity(eqty);
+    } else {
+      const eqty = ((investment / data.amountRequired) * data.equity).toFixed(
+        4
+      );
+
+      setEquity(eqty);
+    }
   };
 
   useEffect(() => {
@@ -87,7 +97,7 @@ const DetailedChampaign = () => {
       console.log(result.error);
     }
   };
-const navigate=useNavigate()
+  const navigate = useNavigate();
   const handleDelete = async () => {
     if (data.amountGained !== 0) {
       toast.error(
@@ -103,7 +113,7 @@ const navigate=useNavigate()
           toast.error(data.message);
         } else {
           toast.success("You Have Successfully deleted this campaign", {
-            onClose: () => navigate(`/profile`) ,
+            onClose: () => navigate(`/profile`),
           });
         }
       } catch (error) {
@@ -150,6 +160,7 @@ const navigate=useNavigate()
             />
           </div>
           <p className="text-gray-700 px-4">{data.description}</p>
+          
           <div className="my-4 px-4 flex justify-between">
             <Link
               to={data.filesURL}
@@ -215,18 +226,20 @@ const navigate=useNavigate()
                   ))
                 : "Batch information not available"}
             </div>
-           {isOwner && <div className="flex items-center mt-8">
-              <Link
-                to={`/createBatch/${params.id}`}
-                className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 mr-4"
-              >
-                Add Batches
-              </Link>
-              <p className="text-green-800 py-4 text-sm">
-                Note: Adding batches helps investors to understand your project
-                in a better way.
-              </p>
-            </div>}
+            {isOwner && (
+              <div className="flex items-center mt-8">
+                <Link
+                  to={`/createBatch/${params.id}`}
+                  className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 mr-4"
+                >
+                  Add Batches
+                </Link>
+                <p className="text-green-800 py-4 text-sm">
+                  Note: Adding batches helps investors to understand your
+                  project in a better way.
+                </p>
+              </div>
+            )}
           </div>
         </div>
 
@@ -247,7 +260,8 @@ const navigate=useNavigate()
               )}
             />
 
-            <div className="mb-4 py-4">
+            <div className="mb-4 py-1">
+            { data.amountGained===data.amountRequired &&  <h1 className="mb-2 font-semibold text-red-600">Goal is achieved,but you can still invest. <a href="/aboutBuffer" target="_blank" className="text-blue-700" >Learn more...</a></h1>}
               {!showCrypto && (
                 <form onSubmit={handleInvestment} className="space-y-2">
                   <div>
@@ -262,7 +276,7 @@ const navigate=useNavigate()
                       required
                       min={1}
                       placeholder="eg. 4500"
-                      max={data.amountRequired - data.amountGained}
+                      max={ data.amountGained!==data.amountGained? data.amountRequired - data.amountGained:data.amountRequired}
                       onChange={(e) => {
                         setInvestment(e.target.value);
                       }}
