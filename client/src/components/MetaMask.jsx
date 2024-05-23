@@ -8,6 +8,7 @@ const MetaMask = ({ data }) => {
   const [hasProvider, setHasProvider] = useState(null);
   const initialState = { accounts: [], balance: "", chainId: "" };
   const [wallet, setWallet] = useState(initialState);
+  const [loading, setLoading] = useState(false);
 
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -65,14 +66,17 @@ const MetaMask = ({ data }) => {
   };
 
   const handleConnectMetamask = async () => {
+    setLoading(true)
     try {
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
       setError(false);
       updateWallet(accounts);
+      setLoading(false)
     } catch (err) {
       setError(true);
+      setLoading(false)
       setErrorMessage(err.message);
     }
   };
@@ -108,6 +112,7 @@ const navigate=useNavigate()
   console.log(usdPrice);
   const handleInvest = async () => {
     if (!wallet.accounts.length) return; // Ensure account is available
+    setLoading(true)
     const total = parseInt(amount) + parseInt(tip);
     console.log(total);
     const valueInWei = total * 1000000000000000 + ""; // 1 Matic in wei
@@ -135,6 +140,7 @@ const navigate=useNavigate()
       const data1 = await res.json();
       if (data1.success == false) {
         setErrorMessage(data1.message);
+        setLoading(false)
       } else {
         navigate('/profile')
       }
@@ -147,7 +153,7 @@ const navigate=useNavigate()
   return (
     <div className="">
       <div className=" ">
-        <form className="bg-white space-y-2">
+        <form  onSubmit={handleInvest} className="bg-white space-y-2">
           <div className="">
             <label className="block font-semibold pb-2" htmlFor="amount">
               Amount:
@@ -196,9 +202,9 @@ const navigate=useNavigate()
               <button
                 className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 mt-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 type="button"
-                disabled={!hasProvider}
+                disabled={!hasProvider || loading}
                 style={{
-                  cursor: !hasProvider ? "not-allowed" : "pointer",
+                  cursor: !hasProvider||loading ? "not-allowed" : "pointer",
                 }}
                 title={
                   !hasProvider
@@ -208,7 +214,7 @@ const navigate=useNavigate()
                 }
                 onClick={handleConnectMetamask}
               >
-                Connect MetaMask
+              {loading?"Loading...":  "Connect MetaMask"}
               </button>
               {!hasProvider && <p className="text-red-600 pt-2">Please Install MetaMask:  <a className="text-blue-700 hover:underline" target="_blank" href="https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?pli=1">Click here</a> </p> }
             </div>
@@ -217,10 +223,11 @@ const navigate=useNavigate()
             <div className="">
               <button
                 className="bg-blue-500 mt-2 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                type="button"
-                onClick={handleInvest}
+                type="submit"
+               
+                disabled={loading}
               >
-                Invest Now
+               {loading?"Loading..":" Invest Now"}
               </button>
             </div>
           )}

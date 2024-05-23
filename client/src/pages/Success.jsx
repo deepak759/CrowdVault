@@ -5,12 +5,14 @@ import { Link } from "react-router-dom";
 
 const Success = () => {
   const isUpdated = sessionStorage.getItem("investmentProcessed");
+  const isBuffer = sessionStorage.getItem("isBuffer");
   const [products, setProducts] = useState([]);
-  const [data, setData] = useState(null);
+  const [bufferMoney, setBufferMoney] = useState(
+    isBuffer == "true" ? true : false
+  );
   const [investmentProcessed, setInvestmentProcessed] = useState(
     !isUpdated ? false : true
   );
-
   useEffect(() => {
     const fetchSessionData = async () => {
       try {
@@ -23,7 +25,6 @@ const Success = () => {
 
     fetchSessionData();
   }, []);
-  // console.log(investmentProcessed);
   useEffect(() => {
     const updateInvestment = async () => {
       if (!investmentProcessed && products.length > 0) {
@@ -37,10 +38,10 @@ const Success = () => {
             }
           );
           const data = await res.json();
-          setData(data);
-console.log(data)
-          sessionStorage.setItem("investmentProcessed", "true");
 
+          sessionStorage.setItem("investmentProcessed", "true");
+          sessionStorage.setItem("isBuffer", data.isBuffer);
+          setBufferMoney(data.isBuffer);
           setInvestmentProcessed(true);
         } catch (error) {
           console.error("Error updating investment:", error);
@@ -52,18 +53,17 @@ console.log(data)
     }
   }, [products, investmentProcessed]);
 
-  // console.log(products);
   if (products.length < 1)
     return (
-      <div className="">
+      <div>
         {" "}
         <Loader />{" "}
       </div>
     );
-    if(!data)return <><Loader/></>
+
   return (
     <div className="flex flex-col items-center justify-center h-screen ">
-      {!data.isBuffer ?
+      {!bufferMoney ? (
         <div className="bg-slate-100 p-8 rounded-lg shadow-lg max-w-md w-full text-center">
           <img
             src={products[0].coverImage}
@@ -107,7 +107,8 @@ console.log(data)
             </Link>
           </p>
         </div>
-      : <div className="bg-slate-100 p-8 rounded-lg shadow-lg max-w-md w-full text-center">
+      ) : (
+        <div className="bg-slate-100 p-8 rounded-lg shadow-lg max-w-md w-full text-center">
           <img
             src={products[0].coverImage}
             alt={products[0].title}
@@ -117,7 +118,9 @@ console.log(data)
           {products.length > 0 && (
             <div className="mb-6">
               <p className="text-lg mb-2">
-                You have successfully invested in <span className="font-bold">buffer account</span>  of<br />{" "}
+                You have successfully invested in{" "}
+                <span className="font-bold">buffer account</span> of
+                <br />{" "}
                 <span className="font-semibold">{products[0].title}</span>{" "}
                 Campaign .
               </p>
@@ -149,7 +152,8 @@ console.log(data)
               Go to Campaign
             </Link>
           </p>
-        </div> }
+        </div>
+      )}
     </div>
   );
 };

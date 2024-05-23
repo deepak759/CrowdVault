@@ -56,7 +56,7 @@ const Footer = () => {
             Terms and Conditions
           </a>
           <a href="/aboutBuffer" target="_blank" className="text-gray-200 hover:text-gray-100">
-            Buffer System 
+           Our Buffer System 
           </a>
         </div>
         <div className="w-full text-black md:w-2/5 ">

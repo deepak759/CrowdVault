@@ -25,7 +25,7 @@ const Home = () => {
     getData();
   }, []);
 
-  sessionStorage.removeItem("investmentProcessed");
+  // sessionStorage.removeItem("investmentProcessed");
   const settings = {
     infinite: true,
     speed: 700,

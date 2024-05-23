@@ -81,9 +81,9 @@ export default function Header() {
             &#9776;
           </button>
           {menuOpen && (
-            <div className="lg:hidden w-[50%] h-[80%] z-20  absolute top-14 right-0 bg-[#263447] text-white p-2">
+            <div className="lg:hidden h-[50%] rounded-bl-lg z-20  absolute top-14 right-0 bg-[#263447] text-white p-2">
               <nav>
-                <ul className="flex flex-col text-2xl text-gray-300 space-y-8 list-none items-left m-8 p-0">
+                <ul className="flex flex-col text-2xl text-gray-300 space-y-6 list-none items-left m-6 p-0">
                   <li className="mb-2">
                     <Link to="/createChampaign" className="no-underline hover:underline ">
                       Create Campaign

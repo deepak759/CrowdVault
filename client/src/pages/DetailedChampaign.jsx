@@ -13,7 +13,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const DetailedChampaign = () => {
-  sessionStorage.removeItem("investmentProcessed");
+  // sessionStorage.removeItem("investmentProcessed");
+  // sessionStorage.removeItem("isBuffer");
   const [data, setData] = useState(null);
   const [equity, setEquity] = useState(0);
   const [investment, setInvestment] = useState(0);
@@ -22,6 +23,7 @@ const DetailedChampaign = () => {
   const [tip, setTip] = useState(250);
   const { currentUser } = useSelector((state) => state.user);
   const [showCrypto, setShowCrypto] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const params = useParams();
 
@@ -42,9 +44,11 @@ const DetailedChampaign = () => {
 
   const handleInvestmentChange = () => {
     if (data.amountGained === data.amountRequired) {
-      const eqty = ((investment / data.amountRequired) *2* data.equity).toFixed(
-        4
-      );
+      const eqty = (
+        (investment / data.amountRequired) *
+        2 *
+        data.equity
+      ).toFixed(4);
 
       setEquity(eqty);
     } else {
@@ -63,6 +67,7 @@ const DetailedChampaign = () => {
   }, [data, investment]);
 
   const handleInvestment = async (e) => {
+    setLoading(true);
     e.preventDefault();
     const stripe = await loadStripe(
       "pk_test_51OsnSiSCYJhYhwAnl1OhMTQ1ZBBGy9nJZcRsHzQWLj1cfBwToiNyuk0BAELYjq2z4PH2rZtAPInwzaEhV97PuxSP00YdKxlibp"
@@ -94,6 +99,7 @@ const DetailedChampaign = () => {
     });
 
     if (result.error) {
+      setLoading(false);
       console.log(result.error);
     }
   };
@@ -160,7 +166,10 @@ const DetailedChampaign = () => {
             />
           </div>
           <p className="text-gray-700 px-4">{data.description}</p>
-          
+          <h1 className="px-4 font-bold">
+            Equity Sharing:{" "}
+            <span className="font-semibold">{data.equity}%</span>
+          </h1>
           <div className="my-4 px-4 flex justify-between">
             <Link
               to={data.filesURL}
@@ -183,7 +192,7 @@ const DetailedChampaign = () => {
               </div>
             )}
           </div>
-          <div className="batches-section bg-gray-100 p-6 rounded-lg">
+          <div className="batches-section bg-gray-100 p-6 ">
             <h1 className="text-2xl font-bold mb-4">Batches</h1>
             <div className="grid gap-6">
               {data?.batches.length > 0
@@ -246,7 +255,7 @@ const DetailedChampaign = () => {
         <div className="md:w-1/3 md:relative    ">
           <div className=" md:sticky  md:top-8">
             <img
-              className="w-full h-20  rounded-t-md"
+              className="w-full h-36  rounded-t-md"
               src="https://t4.ftcdn.net/jpg/04/35/43/67/360_F_435436717_rVpiZB8Uqa4kXbhIvBzbqqLwdS2veLCL.jpg"
               alt="banner image"
             />
@@ -261,7 +270,18 @@ const DetailedChampaign = () => {
             />
 
             <div className="mb-4 py-1">
-            { data.amountGained===data.amountRequired &&  <h1 className="mb-2 font-semibold text-red-600">Goal is achieved,but you can still invest. <a href="/aboutBuffer" target="_blank" className="text-blue-700" >Learn more...</a></h1>}
+              {data.amountGained === data.amountRequired && (
+                <h1 className="mb-2 font-semibold text-red-600">
+                  Goal is achieved,but you can still invest.{" "}
+                  <a
+                    href="/aboutBuffer"
+                    target="_blank"
+                    className="text-blue-700"
+                  >
+                    Learn more...
+                  </a>
+                </h1>
+              )}
               {!showCrypto && (
                 <form onSubmit={handleInvestment} className="space-y-2">
                   <div>
@@ -276,7 +296,11 @@ const DetailedChampaign = () => {
                       required
                       min={1}
                       placeholder="eg. 4500"
-                      max={ data.amountGained!==data.amountGained? data.amountRequired - data.amountGained:data.amountRequired}
+                      max={
+                        data.amountGained !== data.amountGained
+                          ? data.amountRequired - data.amountGained
+                          : data.amountRequired
+                      }
                       onChange={(e) => {
                         setInvestment(e.target.value);
                       }}
@@ -319,9 +343,9 @@ const DetailedChampaign = () => {
                     <button
                       type="submit"
                       className="bg-blue-500  mt-2 text-white py-2 px-4 rounded-md hover:bg-blue-600"
-                      disabled={isOwner || !isLogin}
+                      disabled={isOwner || !isLogin || loading}
                       style={{
-                        cursor: isOwner || !isLogin ? "not-allowed" : "pointer",
+                        cursor: isOwner || !isLogin || loading ? "not-allowed" : "pointer",
                       }}
                       title={
                         isOwner
@@ -331,7 +355,7 @@ const DetailedChampaign = () => {
                           : ""
                       }
                     >
-                      Invest Now
+                      {loading ? "Loading..." : " Invest Now"}
                     </button>
                   </div>
                 </form>
