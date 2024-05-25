@@ -9,9 +9,22 @@ import CampaignCard from "../components/CampaignCard";
 import { useEffect, useState } from "react";
 import Loader from "../components/Loader";
 import { useSelector } from "react-redux";
+import axios from "axios";
 const Home = () => {
   const [data, setData] = useState(null);
   const { currentUser } = useSelector((state) => state.user);
+  useEffect(() => {
+    const fetchSessionData = async () => {
+      try {
+        const response = await axios.get("/api/champaign/session"); //
+        console.log(response.data.products);
+      } catch (error) {
+        console.error("Error fetching session data:", error);
+      }
+    };
+
+    fetchSessionData();
+  }, []);
   useEffect(() => {
     const getData = async () => {
       try {
@@ -70,12 +83,12 @@ const Home = () => {
                         safe and you can withdraw whenever you want.
                       </p>
                       <div className=" mt-3  text-xl">
-                       {!currentUser && <Link
-                          to={"/signin"}
+                        <Link
+                          to={!currentUser?"/signin":"/profile"}
                           className="inline-block bg-blue-600 text-white px-4 md:mt-3 py-2 rounded-md transition duration-300 ease-in-out transform hover:scale-105 hover:bg-blue-600"
                         >
                           Get Started
-                        </Link>}
+                        </Link>
                       </div>
                     </div>
                     <div className="flex my-auto justify-end">
@@ -114,12 +127,12 @@ const Home = () => {
                         safe and you can withdraw whenever you want.
                       </p>
                       <div className=" mt-3  text-xl">
-                       {!currentUser && <Link
-                          to={"/signin"}
+                    <Link
+                        to={!currentUser?"/signin":"/profile"}
                           className="inline-block md:mt-3 bg-blue-600 text-white px-4 py-2 rounded-md transition duration-300 ease-in-out transform hover:scale-105 hover:bg-blue-600"
                         >
                           Get Started
-                        </Link>}
+                        </Link>
                       </div>
                     </div>
                     <div className="flex my-auto justify-end">
