@@ -9,22 +9,10 @@ import CampaignCard from "../components/CampaignCard";
 import { useEffect, useState } from "react";
 import Loader from "../components/Loader";
 import { useSelector } from "react-redux";
-import axios from "axios";
 const Home = () => {
   const [data, setData] = useState(null);
   const { currentUser } = useSelector((state) => state.user);
-  useEffect(() => {
-    const fetchSessionData = async () => {
-      try {
-        const response = await axios.get("/api/champaign/session"); //
-        console.log(response.data.products);
-      } catch (error) {
-        console.error("Error fetching session data:", error);
-      }
-    };
 
-    fetchSessionData();
-  }, []);
   useEffect(() => {
     const getData = async () => {
       try {
@@ -38,7 +26,7 @@ const Home = () => {
     getData();
   }, []);
 
-  // sessionStorage.removeItem("investmentProcessed");
+
   const settings = {
     infinite: true,
     speed: 700,

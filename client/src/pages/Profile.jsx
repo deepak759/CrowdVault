@@ -20,6 +20,7 @@ const Profile = () => {
         const data = await res.json();
 
         setData(data);
+        setRequested(data.user.varificationDocURL && !data.user.isAdmin)
         setStart(true);
       } catch (error) {
         console.log(error);
@@ -27,7 +28,7 @@ const Profile = () => {
     };
     getUserData();
   }, []);
-  console.log(data);
+  
 
   const handleVerifySubmit = async (e) => {
     e.preventDefault();
@@ -75,7 +76,7 @@ const Profile = () => {
       }));
     }
   }, [start]);
-  console.log(data);
+ 
   if (!data)
     return (
       <div className="">
@@ -99,21 +100,20 @@ const Profile = () => {
               <span className="font-bold">Registered email:</span>{" "}
               {data.user.email}
             </h1>
-            {!data.user.isVarified && !data.user.varificationDocURL ? (
-              <button
+            {data.user.isVarified  ? (
+              <div className="bg-green-600 max-w-sm text-white py-2 px-4 rounded hover:bg-green-700 transition">
+                Verified
+              </div>
+              
+            ) : 
+            <button
                 onClick={() => setShowForm(!showForm)}
                 disabled={requested}
                 className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition"
               >
                {requested?" Verification Pending":" Verify Yourself"}
               </button>
-            ) : data.user.varificationDocURL ? (
-              <div className="bg-green-600 max-w-sm text-white py-2 px-4 rounded hover:bg-green-700 transition">
-                Verification Pending
-              </div>
-            ) : (
-              ""
-            )}
+            }
           </div>
           <div className="w-1/2">
             {showForm && (

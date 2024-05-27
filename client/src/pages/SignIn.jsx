@@ -36,7 +36,8 @@ export default function SignIn() {
         return;
       }
       dispatch(signInSuccess(data));
-      if (data.isAdmin) navigate("/adminProfile");
+    
+      if (data.isAdmin==true) navigate("/adminProfile");
       else navigate("/profile");
     } catch (error) {
       dispatch(signInFail(error.message));

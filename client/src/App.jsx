@@ -57,9 +57,9 @@ function App() {
                 path="/updateChampaign/:id"
                 element={<UpdateChampaign />}
               />
-              <Route path="/profile" element={<Profile />} />
+              <Route path="/profile" element={<Profile />}/>
               <Route element={<AdminRoute />}>
-                <Route path="/adminProfile/" element={<AdminProfile />} />
+                <Route path="/adminProfile" element={<AdminProfile />} />
               </Route>
             </Route>
             <Route path="*" element={<Navigate to="/error" replace />} />
